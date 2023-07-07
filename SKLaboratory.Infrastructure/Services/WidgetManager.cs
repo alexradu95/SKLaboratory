@@ -1,67 +1,40 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
-using SKLaboratory.Infrastructure.Widgets;
 
 namespace SKLaboratory.Infrastructure.Services
 {
     public class WidgetManager
     {
-        private List<BaseWidget> RegisteredWidgets = new List<BaseWidget>();
-        private List<BaseWidget> ActiveWidgets = new List<BaseWidget>();
+        private List<IWidget> ActiveWidgets = new List<IWidget>();
+        private IWidgetFactory _widgetFactory;
 
         public IReadOnlyList<IWidget> ActiveWidgetsList => ActiveWidgets.AsReadOnly();
 
-        public void RegisterWidget(BaseWidget widget)
+        public WidgetManager(IWidgetFactory widgetFactory)
         {
-            if (RegisteredWidgets.Any(w => w.GetType() == widget.GetType()))
+            _widgetFactory = widgetFactory;
+        }
+
+        public void ActivateWidget(string widgetType)
+        {
+            var widget = _widgetFactory.CreateWidget(widgetType);
+
+            if (widget == null || ActiveWidgets.Contains(widget))
             {
                 return;
             }
 
-            RegisteredWidgets.Add(widget);
+            widget.Init();
+            ActiveWidgets.Add(widget);
         }
 
-        public void ActivateWidget(BaseWidget widget)
+        public void DeactivateWidget(string widgetType)
         {
-            if (!RegisteredWidgets.Contains(widget))
-            {
-                return;
-            }
+            var widget = ActiveWidgets.Find(w => w.GetType().Name == widgetType);
 
-            if (!ActiveWidgets.Contains(widget))
+            if (widget != null)
             {
-                ActiveWidgets.Add(widget);
-                widget.Init();
+                ActiveWidgets.Remove(widget);
             }
         }
-
-        public void DeactivateWidget(BaseWidget widget)
-        {
-            ActiveWidgets.Remove(widget);
-        }
-
-        public void ActivateWidgetsBasedOnFilter(IWidgetFilter filter)
-        {
-            foreach (var widget in RegisteredWidgets)
-            {
-                if (filter.Filter(widget))
-                {
-                    ActivateWidget(widget);
-                }
-            }
-        }
-
-        public void DeactivateWidgetsBasedOnFilter(IWidgetFilter filter)
-        {
-            var activeWidgetsCopy = new List<BaseWidget>(ActiveWidgets);
-
-            foreach (var widget in activeWidgetsCopy)
-            {
-                if (filter.Filter(widget))
-                {
-                    DeactivateWidget(widget);
-                }
-            }
-        }
-
     }
 }

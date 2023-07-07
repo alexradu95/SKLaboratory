@@ -1,4 +1,5 @@
-﻿using SKLaboratory.Infrastructure.Filters;
+﻿using SKLaboratory.Factories;
+using SKLaboratory.Infrastructure.Filters;
 using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Infrastructure.Services;
 using SKLaboratory.Widgets;
@@ -8,19 +9,17 @@ namespace SKLaboratory
 {
     internal class Program
     {
-        private static WidgetManager widgetManager = new WidgetManager();
+        private static WidgetManager widgetManager = new WidgetManager(new WidgetFactory());
 
         static void Main(string[] args)
         {
             InitializePreSteppers();
             InitializeStereoKit();
             InitializePostInitSteppers();
-            RegisterWidgets();
-            // The widgets are now activated from code, in the future a menu will be implemented
-            widgetManager.ActivateWidgetsBasedOnFilter(new AllWidgetsFilter());
+            widgetManager.ActivateWidget("CubeWidget");
+            widgetManager.ActivateWidget("FloorWidget");
+
             SK.Run(() => DrawActiveWidgets());
-            // Cleaning and shutting down the widgets
-            widgetManager.DeactivateWidgetsBasedOnFilter(new AllWidgetsFilter());
 
         }
 
@@ -40,14 +39,6 @@ namespace SKLaboratory
 
         private static void InitializePostInitSteppers()
         {
-        }
-
-        private static void RegisterWidgets()
-        {
-            widgetManager.RegisterWidget(new CubeWidget());
-            widgetManager.RegisterWidget(new CubeWidget());
-            widgetManager.RegisterWidget(new CubeWidget());
-            widgetManager.RegisterWidget(new FloorWidget());
         }
 
         public static void DrawActiveWidgets()
