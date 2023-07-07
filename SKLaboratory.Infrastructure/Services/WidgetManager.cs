@@ -1,4 +1,5 @@
-﻿using SKLaboratory.Infrastructure.Interfaces;
+﻿using SKLaboratory.Factories;
+using SKLaboratory.Infrastructure.Interfaces;
 
 public class WidgetManager
 {
@@ -14,19 +15,28 @@ public class WidgetManager
 
     public bool ActivateWidget(string widgetType)
     {
-        if (ActiveWidgets.ContainsKey(widgetType))
+        try
         {
+            if (ActiveWidgets.ContainsKey(widgetType))
+            {
+                return false;
+            }
+
+            var widget = _widgetFactory.CreateWidget(widgetType);
+            if (widget == null || !widget.Initialize())
+            {
+                return false;
+            }
+
+            ActiveWidgets.Add(widgetType, widget);
+            return true;
+        }
+        catch (UnknownWidgetTypeException ex)
+        {
+            // Log the error or handle it as appropriate
+            Console.WriteLine(ex.Message);
             return false;
         }
-
-        var widget = _widgetFactory.CreateWidget(widgetType);
-        if (widget == null || !widget.Initialize())
-        {
-            return false;
-        }
-
-        ActiveWidgets.Add(widgetType, widget);
-        return true;
     }
 
     public bool DeactivateWidget(string widgetType)
@@ -36,10 +46,17 @@ public class WidgetManager
             return false;
         }
 
-        ActiveWidgets[widgetType].Shutdown();
-        ActiveWidgets.Remove(widgetType);
-
-        // Automatically create a new widget of the same type
-        return ActivateWidget(widgetType);
+        try
+        {
+            ActiveWidgets[widgetType].Shutdown();
+            ActiveWidgets.Remove(widgetType);
+            return ActivateWidget(widgetType);
+        }
+        catch (Exception ex)
+        {
+            // Log the error or handle it as appropriate
+            Console.WriteLine(ex.Message);
+            return false;
+        }
     }
 }

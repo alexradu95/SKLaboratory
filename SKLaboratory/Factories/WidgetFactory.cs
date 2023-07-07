@@ -16,9 +16,9 @@ namespace SKLaboratory.Factories
                     return new FloorWidget();
                 // Add more cases as needed for other widget types
                 default:
-                    return null;
+                    throw new UnknownWidgetTypeException($"Unknown widget type: {widgetType}");
             }
+        }
         }
     }
 
-}

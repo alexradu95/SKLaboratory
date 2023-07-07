@@ -56,6 +56,9 @@ namespace SKLaboratory.Infrastructure.Interfaces
         /// Gets the unique identifier for the widget.
         /// </summary>
         public Guid Id { get; }
+
+        // Could be extended to WidgetState if it is needed in the future
+        bool IsActive { get; set; }
     }
 
 }
