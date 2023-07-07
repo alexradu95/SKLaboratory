@@ -1,48 +1,69 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
+using SKLaboratory.Infrastructure.Widgets;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace SKLaboratory
+namespace SKLaboratory.Infrastructure.Services
 {
     public class WidgetManager
     {
-        private List<IWidget> RegisteredWidgets = new List<IWidget>();
-        private List<IWidget> ActiveWidgets = new List<IWidget>();
+        private List<BaseWidget> RegisteredWidgets = new List<BaseWidget>();
+        private List<BaseWidget> ActiveWidgets = new List<BaseWidget>();
 
-        public void RegisterWidget(IWidget widget, bool isUnique)
+        public IReadOnlyList<IWidget> ActiveWidgetsList => ActiveWidgets.AsReadOnly();
+
+        public void RegisterWidget(BaseWidget widget)
         {
-            if (isUnique && RegisteredWidgets.Contains(widget))
+            if (RegisteredWidgets.Any(w => w.GetType() == widget.GetType()))
             {
-                // If the widget is unique and already registered, we don't add it again
                 return;
             }
 
             RegisteredWidgets.Add(widget);
         }
 
-        public void ActivateWidget(IWidget widget)
+        public void ActivateWidget(BaseWidget widget)
         {
             if (!RegisteredWidgets.Contains(widget))
             {
-                // If the widget is not registered, we can't activate it
                 return;
             }
 
             if (!ActiveWidgets.Contains(widget))
             {
                 ActiveWidgets.Add(widget);
+                widget.Init();
             }
         }
 
-        public void DeactivateWidget(IWidget widget)
+        public void DeactivateWidget(BaseWidget widget)
         {
             ActiveWidgets.Remove(widget);
         }
 
-        public void DrawActiveWidgets()
+        public void ActivateAllWidgets(IWidgetFilter filter)
         {
-            foreach (var widget in ActiveWidgets)
+            foreach (var widget in RegisteredWidgets)
             {
-                widget.Draw();
+                if (filter.Filter(widget))
+                {
+                    ActivateWidget(widget);
+                }
             }
         }
+
+        public void DeactivateAllWidgets(IWidgetFilter filter)
+        {
+            var activeWidgetsCopy = new List<BaseWidget>(ActiveWidgets);
+
+            foreach (var widget in activeWidgetsCopy)
+            {
+                if (filter.Filter(widget))
+                {
+                    DeactivateWidget(widget);
+                }
+            }
+        }
+
     }
 }

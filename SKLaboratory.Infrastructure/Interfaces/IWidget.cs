@@ -1,12 +1,21 @@
 ﻿namespace SKLaboratory.Infrastructure.Interfaces
 {
-    public interface IWidget
+    public interface IInitializable
     {
-        public void Init();
+        void Init();
+    }
 
-        public void Draw();
+    public interface IDrawable
+    {
+        void Draw();
+    }
 
-        public void Shutdown();
+    public interface IShutdownable
+    {
+        void Shutdown();
+    }
 
+    public interface IWidget : IInitializable, IDrawable, IShutdownable
+    {
     }
 }
