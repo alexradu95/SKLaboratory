@@ -1,32 +1,24 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Widgets;
 using StereoKit;
-using System.Collections.Generic;
 
 namespace SKLaboratory
 {
     internal class Program
     {
-        public static List<IWidget> Widgets;
+        private static WidgetManager widgetManager = new WidgetManager();
 
         static void Main(string[] args)
         {
-            // Registering Steppers that are required to be initialized before SK
             InitializePreSteppers();
-
-            // Initialize StereoKit Engine
             InitializeStereoKit();
-
-            // Registering Steppers that will be used among the app
             InitializePostInitSteppers();
-
             RegisterWidgets();
+            DrawWidgets();
+        }
 
-            // We initialize all widgets for now, they will be initialized from the menu in the future
-            Widgets.ForEach(widget => widget.Init());
-
-            // Core application loop
-            SK.Run(() => Widgets.ForEach(widget => widget.Update()));
+        private static void InitializePreSteppers()
+        {
         }
 
         private static void InitializeStereoKit()
@@ -36,27 +28,21 @@ namespace SKLaboratory
                 appName = "SKLaboratory",
                 assetsFolder = "Assets",
             };
-
             SK.Initialize(settings);
-        }
-
-        private static void InitializePreSteppers()
-        {
-
         }
 
         private static void InitializePostInitSteppers()
         {
-
         }
 
         private static void RegisterWidgets()
         {
-            Widgets = new()
-            {
-                new CubeWidget(),
-                new FloorWidget()
-            };
+            widgetManager.RegisterWidget(new CubeWidget(), true);
+            widgetManager.RegisterWidget(new FloorWidget(), true);
+            widgetManager.ActivateWidget(new CubeWidget());
+            widgetManager.ActivateWidget(new FloorWidget());
         }
+
+        private static void DrawWidgets() => widgetManager.DrawActiveWidgets();
     }
 }

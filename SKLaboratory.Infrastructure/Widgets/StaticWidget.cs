@@ -1,5 +1,4 @@
-﻿using SKLaboratory.Infrastructure.Interfaces;
-using StereoKit;
+﻿using StereoKit;
 
 namespace SKLaboratory.Infrastructure.Widgets
 {

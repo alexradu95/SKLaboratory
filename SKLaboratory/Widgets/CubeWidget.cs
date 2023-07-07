@@ -18,10 +18,10 @@ namespace SKLaboratory.Widgets
 
         public override void Shutdown()
         {
-            throw new NotImplementedException();
+            cube = null;
         }
 
-        public override void Update()
+        public override void Draw()
         {
             UI.Handle("Cube", ref pose, cube.Bounds);
             cube.Draw(pose.ToMatrix());

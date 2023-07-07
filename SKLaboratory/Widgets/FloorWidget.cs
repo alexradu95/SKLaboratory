@@ -18,10 +18,10 @@ namespace SKLaboratory.Widgets
 
         public override void Shutdown()
         {
-            throw new NotImplementedException();
+            floorMaterial = null;
         }
 
-        public override void Update()
+        public override void Draw()
         {
             if (SK.System.displayType == Display.Opaque)
                 Mesh.Cube.Draw(floorMaterial, floorTransform);
