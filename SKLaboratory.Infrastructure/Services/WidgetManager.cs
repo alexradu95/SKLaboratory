@@ -1,40 +1,67 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
+using System.Collections.Generic;
 
 namespace SKLaboratory.Infrastructure.Services
 {
+    /// <summary>
+    /// Manages the lifecycle of widgets.
+    /// </summary>
     public class WidgetManager
     {
-        private List<IWidget> ActiveWidgets = new List<IWidget>();
-        private IWidgetFactory _widgetFactory;
+        private readonly List<IWidget> ActiveWidgets = new List<IWidget>();
+        private readonly IWidgetFactory _widgetFactory;
 
+        /// <summary>
+        /// Gets the list of active widgets.
+        /// </summary>
         public IReadOnlyList<IWidget> ActiveWidgetsList => ActiveWidgets.AsReadOnly();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WidgetManager"/> class.
+        /// </summary>
+        /// <param name="widgetFactory">The widget factory.</param>
         public WidgetManager(IWidgetFactory widgetFactory)
         {
             _widgetFactory = widgetFactory;
         }
 
+        /// <summary>
+        /// Activates the widget of the specified type.
+        /// </summary>
+        /// <param name="widgetType">Type of the widget.</param>
         public void ActivateWidget(string widgetType)
         {
-            var widget = _widgetFactory.CreateWidget(widgetType);
+            var widget = GetWidget(widgetType);
 
             if (widget == null || ActiveWidgets.Contains(widget))
             {
                 return;
             }
 
-            widget.Initialize();
-            ActiveWidgets.Add(widget);
+            if (widget.Initialize())
+            {
+                ActiveWidgets.Add(widget);
+            }
+
         }
 
+        /// <summary>
+        /// Deactivates the widget of the specified type.
+        /// </summary>
+        /// <param name="widgetType">Type of the widget.</param>
         public void DeactivateWidget(string widgetType)
         {
-            var widget = ActiveWidgets.Find(w => w.GetType().Name == widgetType);
+            ActiveWidgets.Remove(GetWidget(widgetType));
+        }
 
-            if (widget != null)
-            {
-                ActiveWidgets.Remove(widget);
-            }
+        /// <summary>
+        /// Gets the widget of the specified type.
+        /// </summary>
+        /// <param name="widgetType">Type of the widget.</param>
+        /// <returns>The widget of the specified type.</returns>
+        private IWidget GetWidget(string widgetType)
+        {
+            return _widgetFactory.CreateWidget(widgetType);
         }
     }
 }
