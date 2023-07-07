@@ -23,7 +23,7 @@ namespace SKLaboratory.Infrastructure.Services
                 return;
             }
 
-            widget.Init();
+            widget.Initialize();
             ActiveWidgets.Add(widget);
         }
 

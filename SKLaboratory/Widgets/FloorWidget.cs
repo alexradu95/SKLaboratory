@@ -19,12 +19,13 @@ namespace SKLaboratory.Widgets
 
         Material floorMaterial;
 
-        public void Init()
+        public bool Initialize()
         {
             _id = Guid.NewGuid();
             _transform = Matrix.TS(0, -1.5f, 0, new Vec3(30, 0.1f, 30));
             floorMaterial = new Material("floor.hlsl");
             floorMaterial.Transparency = Transparency.Blend;
+            return true;
         }
 
         public void Shutdown()

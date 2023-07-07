@@ -10,9 +10,9 @@ namespace SKLaboratory.Infrastructure.Interfaces
     public interface IInitializable
     {
         /// <summary>
-        /// Initializes the widget.
+        /// Initializes the Widget
         /// </summary>
-        void Init();
+        bool Initialize();
     }
 
     /// <summary>
@@ -38,18 +38,24 @@ namespace SKLaboratory.Infrastructure.Interfaces
     }
 
     /// <summary>
-    /// Interface for widgets. Widgets are components that can be initialized, drawn, and shut down.
+    /// Interface for widgets have a position in 3D space
     /// </summary>
-    public interface IWidget : IInitializable, IDrawable, IShutdownable
+    public interface IHasPosition
     {
         public Matrix Transform { get; }
 
         public Pose Pose { get; }
+    }
+
+    /// <summary>
+    /// Interface for widgets. Widgets are components that can be initialized, drawn, and shut down.
+    /// </summary>
+    public interface IWidget : IInitializable, IDrawable, IShutdownable, IHasPosition
+    {
         /// <summary>
         /// Gets the unique identifier for the widget.
         /// </summary>
         public Guid Id { get; }
-
     }
 
 }

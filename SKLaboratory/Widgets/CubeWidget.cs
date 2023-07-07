@@ -18,7 +18,7 @@ namespace SKLaboratory.Widgets
 
         private Pose _pose;
 
-        public void Init()
+        public bool Initialize()
         {
             _id = Guid.NewGuid();
             // Create assets used by the app
@@ -26,6 +26,7 @@ namespace SKLaboratory.Widgets
             cube = Model.FromMesh(
                 Mesh.GenerateRoundedCube(Vec3.One * 0.1f, 0.02f),
                 Material.UI);
+            return true;
         }
 
         public void Shutdown()
