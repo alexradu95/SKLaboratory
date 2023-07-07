@@ -1,49 +1,47 @@
 ﻿using SKLaboratory.Factories;
-using SKLaboratory.Infrastructure.Services;
 using StereoKit;
 
-namespace SKLaboratory
+namespace SKLaboratory;
+
+internal class Program
 {
-    internal class Program
+    private static WidgetManager widgetManager = new WidgetManager(new WidgetFactory());
+
+    static void Main(string[] args)
     {
-        private static WidgetManager widgetManager = new WidgetManager(new WidgetFactory());
+        InitializePreSteppers();
+        InitializeStereoKit();
+        InitializePostInitSteppers();
+        widgetManager.ActivateWidget("CubeWidget");
+        widgetManager.ActivateWidget("FloorWidget");
 
-        static void Main(string[] args)
+        SK.Run(() => DrawActiveWidgets());
+
+    }
+
+    private static void InitializePreSteppers()
+    {
+    }
+
+    private static void InitializeStereoKit()
+    {
+        var settings = new SKSettings
         {
-            InitializePreSteppers();
-            InitializeStereoKit();
-            InitializePostInitSteppers();
-            widgetManager.ActivateWidget("CubeWidget");
-            widgetManager.ActivateWidget("FloorWidget");
+            appName = "SKLaboratory",
+            assetsFolder = "Assets",
+        };
+        SK.Initialize(settings);
+    }
 
-            SK.Run(() => DrawActiveWidgets());
+    private static void InitializePostInitSteppers()
+    {
+    }
 
-        }
-
-        private static void InitializePreSteppers()
+    public static void DrawActiveWidgets()
+    {
+        foreach (var widget in widgetManager.ActiveWidgetsList.Values)
         {
-        }
-
-        private static void InitializeStereoKit()
-        {
-            var settings = new SKSettings
-            {
-                appName = "SKLaboratory",
-                assetsFolder = "Assets",
-            };
-            SK.Initialize(settings);
-        }
-
-        private static void InitializePostInitSteppers()
-        {
-        }
-
-        public static void DrawActiveWidgets()
-        {
-            foreach (var widget in widgetManager.ActiveWidgetsList)
-            {
-                widget.Draw();
-            }
+            widget.Draw();
         }
     }
 }

@@ -1,67 +1,45 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
-using System.Collections.Generic;
 
-namespace SKLaboratory.Infrastructure.Services
+public class WidgetManager
 {
-    /// <summary>
-    /// Manages the lifecycle of widgets.
-    /// </summary>
-    public class WidgetManager
+    private readonly Dictionary<string, IWidget> ActiveWidgets = new Dictionary<string, IWidget>();
+    private readonly IWidgetFactory _widgetFactory;
+
+    public IReadOnlyDictionary<string, IWidget> ActiveWidgetsList => ActiveWidgets;
+
+    public WidgetManager(IWidgetFactory widgetFactory)
     {
-        private readonly List<IWidget> ActiveWidgets = new List<IWidget>();
-        private readonly IWidgetFactory _widgetFactory;
+        _widgetFactory = widgetFactory;
+    }
 
-        /// <summary>
-        /// Gets the list of active widgets.
-        /// </summary>
-        public IReadOnlyList<IWidget> ActiveWidgetsList => ActiveWidgets.AsReadOnly();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WidgetManager"/> class.
-        /// </summary>
-        /// <param name="widgetFactory">The widget factory.</param>
-        public WidgetManager(IWidgetFactory widgetFactory)
+    public bool ActivateWidget(string widgetType)
+    {
+        if (ActiveWidgets.ContainsKey(widgetType))
         {
-            _widgetFactory = widgetFactory;
+            return false;
         }
 
-        /// <summary>
-        /// Activates the widget of the specified type.
-        /// </summary>
-        /// <param name="widgetType">Type of the widget.</param>
-        public void ActivateWidget(string widgetType)
+        var widget = _widgetFactory.CreateWidget(widgetType);
+        if (widget == null || !widget.Initialize())
         {
-            var widget = GetWidget(widgetType);
-
-            if (widget == null || ActiveWidgets.Contains(widget))
-            {
-                return;
-            }
-
-            if (widget.Initialize())
-            {
-                ActiveWidgets.Add(widget);
-            }
-
+            return false;
         }
 
-        /// <summary>
-        /// Deactivates the widget of the specified type.
-        /// </summary>
-        /// <param name="widgetType">Type of the widget.</param>
-        public void DeactivateWidget(string widgetType)
+        ActiveWidgets.Add(widgetType, widget);
+        return true;
+    }
+
+    public bool DeactivateWidget(string widgetType)
+    {
+        if (!ActiveWidgets.ContainsKey(widgetType))
         {
-            ActiveWidgets.Remove(GetWidget(widgetType));
+            return false;
         }
 
-        /// <summary>
-        /// Gets the widget of the specified type.
-        /// </summary>
-        /// <param name="widgetType">Type of the widget.</param>
-        /// <returns>The widget of the specified type.</returns>
-        private IWidget GetWidget(string widgetType)
-        {
-            return _widgetFactory.CreateWidget(widgetType);
-        }
+        ActiveWidgets[widgetType].Shutdown();
+        ActiveWidgets.Remove(widgetType);
+
+        // Automatically create a new widget of the same type
+        return ActivateWidget(widgetType);
     }
 }
