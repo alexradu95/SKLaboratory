@@ -2,7 +2,6 @@
 {
     public interface IWidget
     {
-
         public void Init();
 
         public void Update();

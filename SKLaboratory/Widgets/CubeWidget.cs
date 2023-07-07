@@ -1,35 +1,30 @@
 ﻿using SKLaboratory.Infrastructure;
 using StereoKit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SKLaboratory.Widgets
 {
-    internal class CubeWidget : IWidget
+    internal class CubeWidget : MoveableWidget
     {
-        Pose cubePose;
         Model cube;
-        public void Init()
+        public override void Init()
         {
             // Create assets used by the app
-            cubePose = new Pose(0, 0, -0.5f);
+            pose = new Pose(0, 0, -0.5f);
             cube = Model.FromMesh(
                 Mesh.GenerateRoundedCube(Vec3.One * 0.1f, 0.02f),
                 Material.UI);
         }
 
-        public void Shutdown()
+        public override void Shutdown()
         {
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public override void Update()
         {
-            UI.Handle("Cube", ref cubePose, cube.Bounds);
-            cube.Draw(cubePose.ToMatrix());
+            UI.Handle("Cube", ref pose, cube.Bounds);
+            cube.Draw(pose.ToMatrix());
         }
     }
 }
