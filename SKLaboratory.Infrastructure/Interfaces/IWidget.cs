@@ -1,4 +1,4 @@
-﻿namespace SKLaboratory.Infrastructure
+﻿namespace SKLaboratory.Infrastructure.Interfaces
 {
     public interface IWidget
     {
