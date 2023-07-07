@@ -1,7 +1,5 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Infrastructure.Widgets;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SKLaboratory.Infrastructure.Services
 {
@@ -41,7 +39,7 @@ namespace SKLaboratory.Infrastructure.Services
             ActiveWidgets.Remove(widget);
         }
 
-        public void ActivateAllWidgets(IWidgetFilter filter)
+        public void ActivateWidgetsBasedOnFilter(IWidgetFilter filter)
         {
             foreach (var widget in RegisteredWidgets)
             {
@@ -52,7 +50,7 @@ namespace SKLaboratory.Infrastructure.Services
             }
         }
 
-        public void DeactivateAllWidgets(IWidgetFilter filter)
+        public void DeactivateWidgetsBasedOnFilter(IWidgetFilter filter)
         {
             var activeWidgetsCopy = new List<BaseWidget>(ActiveWidgets);
 

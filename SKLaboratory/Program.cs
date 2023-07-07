@@ -17,8 +17,10 @@ namespace SKLaboratory
             InitializePostInitSteppers();
             RegisterWidgets();
             // The widgets are now activated from code, in the future a menu will be implemented
-            widgetManager.ActivateAllWidgets(new AllWidgetsFilter());
+            widgetManager.ActivateWidgetsBasedOnFilter(new AllWidgetsFilter());
             SK.Run(() => DrawActiveWidgets());
+            // Cleaning and shutting down the widgets
+            widgetManager.DeactivateWidgetsBasedOnFilter(new AllWidgetsFilter());
 
         }
 
