@@ -26,9 +26,9 @@
 	<!--Point Android to the right folders, otherwise these default to the root
 	    directory.-->
 	<PropertyGroup>
-		<AndroidManifest          >..\..\Platforms\Android\AndroidManifest.xml</AndroidManifest>
+		<AndroidManifest>..\..\Platforms\Android\AndroidManifest.xml</AndroidManifest>
 		<MonoAndroidResourcePrefix>..\..\Platforms\Android\Resources</MonoAndroidResourcePrefix>
-		<MonoAndroidAssetsPrefix  >..\..\Platforms\Android\Assets</MonoAndroidAssetsPrefix>
+		<MonoAndroidAssetsPrefix>..\..\Platforms\Android\Assets</MonoAndroidAssetsPrefix>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -37,11 +37,12 @@
 		<!--Don't compile .NET Core code in this project.-->
 		<Compile Remove="..\..\**\*.Net.cs" />
 		<Compile Remove="..\..\Platforms\Net\**\*.cs" />
+		<ProjectReference Include="..\..\..\SKLaboratory.Infrastructure\SKLaboratory.Infrastructure.csproj" />
 
 		<!--Hide everything in this project, otherwise it's a lot of
 		    duplication that creates noise.-->
 		<Compile Update="..\..\**" Visible="false" />
-		<None    Update="..\..\**" Visible="false" />
+		<None Update="..\..\**" Visible="false" />
 		<Content Update="..\..\**" Visible="false" />
 
 		<Compile Update="..\..\**\*.Android.cs" Visible="true" />
