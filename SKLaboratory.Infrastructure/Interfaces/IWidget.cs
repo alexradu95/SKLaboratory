@@ -1,7 +1,9 @@
-﻿using SKLaboratory.Infrastructure.Widgets;
+﻿using StereoKit;
 
 namespace SKLaboratory.Infrastructure.Interfaces
 {
+
+
     /// <summary>
     /// Interface for widgets that can be initialized.
     /// </summary>
@@ -40,6 +42,14 @@ namespace SKLaboratory.Infrastructure.Interfaces
     /// </summary>
     public interface IWidget : IInitializable, IDrawable, IShutdownable
     {
+        public Matrix Transform { get; }
+
+        public Pose Pose { get; }
+        /// <summary>
+        /// Gets the unique identifier for the widget.
+        /// </summary>
+        public Guid Id { get; }
+
     }
 
 }

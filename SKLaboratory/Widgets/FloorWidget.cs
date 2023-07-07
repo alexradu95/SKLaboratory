@@ -1,28 +1,38 @@
-﻿using SKLaboratory.Infrastructure.Widgets;
+﻿using SKLaboratory.Infrastructure.Interfaces;
 using StereoKit;
 using System;
 
 namespace SKLaboratory.Widgets
 {
-    public class FloorWidget : StaticWidget
+    public class FloorWidget : IWidget
     {
-        new readonly bool IsUnique = true;
+        public Matrix Transform => _transform;
+
+        private Matrix _transform;
+
+        public Pose Pose => _transform.Pose;
+
+        public Guid Id => _id;
+
+        private Guid _id;
+
 
         Material floorMaterial;
 
-        public override void Init()
+        public void Init()
         {
-            Transform = Matrix.TS(0, -1.5f, 0, new Vec3(30, 0.1f, 30));
+            _id = Guid.NewGuid();
+            _transform = Matrix.TS(0, -1.5f, 0, new Vec3(30, 0.1f, 30));
             floorMaterial = new Material("floor.hlsl");
             floorMaterial.Transparency = Transparency.Blend;
         }
 
-        public override void Shutdown()
+        public void Shutdown()
         {
             floorMaterial = null;
         }
 
-        public override void Draw()
+        public void Draw()
         {
             if (SK.System.displayType == Display.Opaque)
                 Mesh.Cube.Draw(floorMaterial, Transform);

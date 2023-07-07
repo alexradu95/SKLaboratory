@@ -1,6 +1,4 @@
-﻿using SKLaboratory.Infrastructure.Widgets;
-
-namespace SKLaboratory.Infrastructure.Interfaces;
+﻿namespace SKLaboratory.Infrastructure.Interfaces;
 
 
 /// <summary>
@@ -13,6 +11,6 @@ public interface IWidgetFilter
     /// </summary>
     /// <param name="widget">The widget to filter.</param>
     /// <returns>True if the widget passes the filter, false otherwise.</returns>
-    bool Filter(BaseWidget widget);
+    bool Filter(IWidget widget);
 }
 
