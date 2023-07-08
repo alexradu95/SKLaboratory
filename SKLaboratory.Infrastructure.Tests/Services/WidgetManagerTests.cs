@@ -1,11 +1,11 @@
-﻿using Moq;
+﻿// File: SKLaboratory.Infrastructure.Tests/Services/WidgetManagerTests.cs
+using Moq;
 using NUnit.Framework;
 using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Infrastructure.Widgets;
 using System;
-using System.Collections.Generic;
 
-namespace YourNamespace.Tests
+namespace SKLaboratory.Infrastructure.Tests.Services
 {
     [TestFixture]
     public class WidgetManagerTests
@@ -110,7 +110,7 @@ namespace YourNamespace.Tests
 
             // Act
             _widgetManager.ActivateWidget(widgetType);
-            var result = _widgetManager.DeactivateWidget(widgetType); 
+            var result = _widgetManager.DeactivateWidget(widgetType);
 
             // Assert
             Assert.That(result, Is.True);
