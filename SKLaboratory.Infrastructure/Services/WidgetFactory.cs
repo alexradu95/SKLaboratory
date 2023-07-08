@@ -1,14 +1,32 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
+using SKLaboratory.Widgets;
+using System;
+using System.Collections.Generic;
 
-public interface IWidgetFactory
+namespace SKLaboratory.Factories;
+
+public class WidgetFactory : IWidgetFactory
 {
+    /// <summary>
+    /// A dictionary that maps widget types to functions that create widgets of those types.
+    /// </summary>
+    private readonly Dictionary<string, Func<IWidget>> _widgetCreators = new Dictionary<string, Func<IWidget>>();
+
     /// <summary>
     /// Creates a new widget of the specified type.
     /// </summary>
     /// <param name="widgetType">The type of the widget to create.</param>
     /// <returns>A new widget of the specified type.</returns>
     /// <exception cref="UnknownWidgetTypeException">Thrown when the specified widget type is not registered.</exception>
-    IWidget CreateWidget(string widgetType);
+    public IWidget CreateWidget(string widgetType)
+    {
+        if (_widgetCreators.TryGetValue(widgetType, out var createWidgetFunc))
+        {
+            return createWidgetFunc();
+        }
+
+        throw new UnknownWidgetTypeException($"Unknown widget type: {widgetType}");
+    }
 
     /// <summary>
     /// Registers a new widget type with the factory.
@@ -29,5 +47,9 @@ public interface IWidgetFactory
     /// You're passing a function that creates a new <see cref="CubeWidget"/> as the second parameter.
     /// The factory can then use this function to create new <see cref="CubeWidget"/> instances.
     /// </example>
-    void RegisterWidget(string widgetType, Func<IWidget> createWidgetFunc);
+    public void RegisterWidget(string widgetType, Func<IWidget> createWidgetFunc)
+    {
+        _widgetCreators[widgetType] = createWidgetFunc;
+    }
+
 }
