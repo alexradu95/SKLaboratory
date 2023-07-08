@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SKLaboratory.ApplicationLifecycle;
 using SKLaboratory.Factories;
-using SKLaboratory.Initialization;
 using StereoKit;
 
 namespace SKLaboratory;
@@ -10,20 +8,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-
-        // Create a new service collection
-        var serviceCollection = new ServiceCollection();
-
-        // Register your services
-        serviceCollection.AddSingleton<WidgetFactory>();
-        serviceCollection.AddSingleton<WidgetManager>();
-
-        // Build the service provider
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-
-        // Use the service provider to get your services
-        var stereoKitInitializer = serviceProvider.GetRequiredService<StereoKitInitializer>();
-        var mainLoop = serviceProvider.GetRequiredService<MainAppLoop>();
+        ServiceProvider serviceProvider = BuildServiceProvider();
 
         var settings = new SKSettings
         {
@@ -33,13 +18,30 @@ internal class Program
 
         SK.Initialize(settings);
 
+        // Use the service provider to get your services
+        var widgetManager = serviceProvider.GetRequiredService<WidgetManager>();
+
 
         SK.Run(() =>
         {
-            foreach (var widget in _widgetManager.ActiveWidgetsList.Values)
+            foreach (var widget in widgetManager.ActiveWidgetsList.Values)
             {
                 widget.Draw();
             }
         });
+    }
+
+    private static ServiceProvider BuildServiceProvider()
+    {
+        // Create a new service collection
+        var serviceCollection = new ServiceCollection();
+
+        // Register your services
+        serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
+        serviceCollection.AddSingleton<WidgetManager>();
+
+        // Build the service provider
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+        return serviceProvider;
     }
 }
