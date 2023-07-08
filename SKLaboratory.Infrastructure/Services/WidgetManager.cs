@@ -50,7 +50,7 @@ public class WidgetManager
         {
             ActiveWidgets[widgetType].Shutdown();
             ActiveWidgets.Remove(widgetType);
-            return ActivateWidget(widgetType);
+            return true;
         }
         catch (Exception ex)
         {
