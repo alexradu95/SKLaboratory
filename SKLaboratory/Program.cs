@@ -41,22 +41,22 @@ internal class Program
         var serviceCollection = new ServiceCollection();
 
         serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
-        serviceCollection.AddSingleton<WidgetProvider>();
+        serviceCollection.AddSingleton<WidgetManager>();
 
         return serviceCollection.BuildServiceProvider();
     }
 
     private static void RegisterWidgets(ServiceProvider serviceProvider)
     {
-        var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
+        var widgetFactory = serviceProvider.GetRequiredService<IWidgetFactory>();
 
-        widgetProvider.RegisterWidget(typeof(CubeWidget));
-        widgetProvider.RegisterWidget(typeof(FloorWidget));
+        widgetFactory.RegisterWidget(typeof(CubeWidget));
+        widgetFactory.RegisterWidget(typeof(FloorWidget));
     }
 
     private static void ActivateStartWidgets(ServiceProvider serviceProvider)
     {
-        var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
+        var widgetProvider = serviceProvider.GetRequiredService<WidgetManager>();
 
         widgetProvider.ActivateWidget(typeof(CubeWidget));
         widgetProvider.ActivateWidget(typeof(FloorWidget));
@@ -64,7 +64,7 @@ internal class Program
 
     private static void RunMainLoop(ServiceProvider serviceProvider)
     {
-        var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
+        var widgetProvider = serviceProvider.GetRequiredService<WidgetManager>();
 
         SK.Run(() =>
         {

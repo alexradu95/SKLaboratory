@@ -29,5 +29,5 @@ public interface IWidgetFactory
     /// You're passing a function that creates a new <see cref="CubeWidget"/> as the second parameter.
     /// The factory can then use this function to create new <see cref="CubeWidget"/> instances.
     /// </example>
-    void RegisterWidget(Type widgetType, Func<IWidget> createWidgetFunc);
+    void RegisterWidget(Type widgetType);
 }
