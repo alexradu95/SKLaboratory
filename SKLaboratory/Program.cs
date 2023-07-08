@@ -12,13 +12,12 @@ namespace SKLaboratory
     {
         static void Main(string[] args)
         {
-            var stereoKitInitializer = new StereoKitInitializer();
+            var serviceProvider = new ServiceProviderBuilder().Build();
+
+            var stereoKitInitializer = serviceProvider.GetRequiredService<StereoKitInitializer>();
             stereoKitInitializer.Initialize();
 
-            var serviceProviderBuilder = new ServiceProviderBuilder();
-            ServiceProvider serviceProvider = serviceProviderBuilder.Build();
-
-            var widgetRegistrar = new WidgetRegistrar(serviceProvider.GetRequiredService<IWidgetFactory>());
+            var widgetRegistrar = serviceProvider.GetRequiredService<WidgetRegistrar>();
             widgetRegistrar.RegisterWidgets();
 
             ActivateStartWidgets(serviceProvider);

@@ -10,6 +10,9 @@ public class ServiceProviderBuilder
 
         serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
         serviceCollection.AddSingleton<WidgetManager>();
+        serviceCollection.AddSingleton<StereoKitInitializer>();
+        serviceCollection.AddSingleton<ServiceProviderBuilder>();
+        serviceCollection.AddSingleton<WidgetRegistrar>();
 
         return serviceCollection.BuildServiceProvider();
     }
