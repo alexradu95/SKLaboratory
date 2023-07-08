@@ -1,4 +1,6 @@
-﻿using SKLaboratory.Widgets;
+﻿using System;
+using System.Collections.Generic;
+using SKLaboratory.Infrastructure.Interfaces;
 
 namespace SKLaboratory.Initialization
 {
@@ -11,10 +13,24 @@ namespace SKLaboratory.Initialization
             _widgetFactory = widgetFactory;
         }
 
-        public void RegisterWidgets()
+        public void RegisterWidget<T>() where T : IWidget
         {
-            _widgetFactory.RegisterWidget(typeof(CubeWidget));
-            _widgetFactory.RegisterWidget(typeof(FloorWidget));
+            _widgetFactory.RegisterWidget(typeof(T));
+        }
+
+        public void RegisterWidgets<T>(List<Type> widgetTypes) where T : IWidget
+        {
+            foreach (var widgetType in widgetTypes)
+            {
+                if (typeof(T).IsAssignableFrom(widgetType))
+                {
+                    _widgetFactory.RegisterWidget(widgetType);
+                }
+                else
+                {
+                    throw new ArgumentException($"The widget type '{widgetType.Name}' does not implement the required interface '{typeof(T).Name}'.");
+                }
+            }
         }
     }
 }

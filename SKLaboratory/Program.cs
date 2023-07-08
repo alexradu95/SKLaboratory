@@ -5,6 +5,8 @@ using SKLaboratory.Factories;
 using SKLaboratory.Initialization;
 using SKLaboratory.Widgets;
 using StereoKit;
+using System;
+using System.Collections.Generic;
 
 namespace SKLaboratory
 {
@@ -13,14 +15,21 @@ namespace SKLaboratory
         static void Main(string[] args)
         {
             var serviceProvider = new ServiceProviderBuilder().Build();
-
+            
+            // Initialize StereoKit
             var stereoKitInitializer = serviceProvider.GetRequiredService<StereoKitInitializer>();
             stereoKitInitializer.Initialize();
 
+            // Register Widgets
             var widgetRegistrar = serviceProvider.GetRequiredService<WidgetRegistrar>();
-            widgetRegistrar.RegisterWidgets();
 
+            widgetRegistrar.RegisterWidget<CubeWidget>();
+            widgetRegistrar.RegisterWidget<FloorWidget>();
+
+            // Activate default Widgets
             ActivateStartWidgets(serviceProvider);
+
+            // Run Main loop
             RunMainLoop(serviceProvider);
         }
 
