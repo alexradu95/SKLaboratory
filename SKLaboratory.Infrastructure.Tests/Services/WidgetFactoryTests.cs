@@ -23,7 +23,7 @@ namespace SKLaboratory.Infrastructure.Tests.Services
         {
             // Arrange
             var expectedWidgetType = typeof(MockNullWidget);
-            _widgetFactory.RegisterWidget(expectedWidgetType);
+            _widgetFactory.RegisterWidget<MockNullWidget>();
 
             // Act
             var result = _widgetFactory.CreateWidget(expectedWidgetType);
@@ -46,11 +46,10 @@ namespace SKLaboratory.Infrastructure.Tests.Services
         public void RegisterWidget_WhenWidgetTypeAlreadyRegistered_ShouldThrowArgumentException()
         {
             // Arrange
-            var widgetType = typeof(MockNullWidget);
-            _widgetFactory.RegisterWidget(widgetType);
+            _widgetFactory.RegisterWidget<MockNullWidget>();
 
             // Act and Assert
-            Assert.Throws<ArgumentException>(() => _widgetFactory.RegisterWidget(widgetType));
+            Assert.Throws<ArgumentException>(() => _widgetFactory.RegisterWidget<MockNullWidget>());
         }
     }
 }

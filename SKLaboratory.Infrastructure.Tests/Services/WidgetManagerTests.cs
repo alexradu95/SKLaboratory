@@ -26,10 +26,10 @@ namespace SKLaboratory.Infrastructure.Tests.Services
             // Arrange
             var widgetType = typeof(MockNullWidget);
             _widgetFactoryMock.Setup(factory => factory.CreateWidget(widgetType)).Returns(new Mock<IWidget>().Object);
-            _widgetManager.ActivateWidget(widgetType); // Activate the widget once
+            _widgetManager.ToggleWidget(widgetType); // Activate the widget once
 
             // Act
-            var result = _widgetManager.ActivateWidget(widgetType); // Try to activate it again
+            var result = _widgetManager.ToggleWidget(widgetType); // Try to activate it again
 
             // Assert
             Assert.That(result, Is.False);
@@ -45,7 +45,7 @@ namespace SKLaboratory.Infrastructure.Tests.Services
             _widgetFactoryMock.Setup(factory => factory.CreateWidget(widgetType)).Returns(widgetMock.Object);
 
             // Act
-            var result = _widgetManager.ActivateWidget(widgetType);
+            var result = _widgetManager.ToggleWidget(widgetType);
 
             // Assert
             Assert.That(result, Is.False);
@@ -61,7 +61,7 @@ namespace SKLaboratory.Infrastructure.Tests.Services
             _widgetFactoryMock.Setup(factory => factory.CreateWidget(widgetType)).Returns(widgetMock.Object);
 
             // Act
-            var result = _widgetManager.ActivateWidget(widgetType);
+            var result = _widgetManager.ToggleWidget(widgetType);
 
             // Assert
             Assert.That(result, Is.True);
@@ -76,7 +76,7 @@ namespace SKLaboratory.Infrastructure.Tests.Services
             var widgetType = typeof(MockNullWidget);
 
             // Act
-            var result = _widgetManager.DeactivateWidget(widgetType);
+            var result = _widgetManager.ToggleWidget(widgetType);
 
             // Assert
             Assert.That(result, Is.False);
@@ -89,10 +89,10 @@ namespace SKLaboratory.Infrastructure.Tests.Services
             var widgetType = typeof(MockNullWidget);
             var widgetMock = new Mock<IWidget>();
             widgetMock.Setup(widget => widget.Shutdown()).Throws<Exception>();
-            _widgetManager.ActivateWidget(widgetType);
+            _widgetManager.ToggleWidget(widgetType);
 
             // Act
-            var result = _widgetManager.DeactivateWidget(widgetType);
+            var result = _widgetManager.ToggleWidget(widgetType);
 
             // Assert
             Assert.That(result, Is.False);
@@ -109,8 +109,8 @@ namespace SKLaboratory.Infrastructure.Tests.Services
             _widgetFactoryMock.Setup(factory => factory.CreateWidget(widgetType)).Returns(widgetMock.Object);
 
             // Act
-            _widgetManager.ActivateWidget(widgetType);
-            var result = _widgetManager.DeactivateWidget(widgetType);
+            _widgetManager.ToggleWidget(widgetType);
+            var result = _widgetManager.ToggleWidget(widgetType);
 
             // Assert
             Assert.That(result, Is.True);

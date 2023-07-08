@@ -1,9 +1,6 @@
-﻿using SKLaboratory.Factories;
-using SKLaboratory.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using SKLaboratory.Infrastructure.Interfaces;
 
-public class WidgetManager
+public class WidgetManager : IWidgetManager
 {
     private readonly Dictionary<Type, IWidget> _activeWidgets = new Dictionary<Type, IWidget>();
     private readonly IWidgetFactory _widgetFactory;
