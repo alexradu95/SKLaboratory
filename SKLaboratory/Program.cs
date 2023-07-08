@@ -14,10 +14,9 @@ internal class Program
         var serviceCollection = new ServiceCollection();
 
         // Register your services
-        serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
+        serviceCollection.AddSingleton<WidgetFactory>();
         serviceCollection.AddSingleton<WidgetManager>();
         serviceCollection.AddSingleton<StereoKitInitializer>();
-        serviceCollection.AddSingleton<StartupWidgetActivator>();
         serviceCollection.AddSingleton<MainAppLoop>();
 
         // Build the service provider
@@ -25,12 +24,10 @@ internal class Program
 
         // Use the service provider to get your services
         var stereoKitInitializer = serviceProvider.GetRequiredService<StereoKitInitializer>();
-        var widgetCreator = serviceProvider.GetRequiredService<StartupWidgetActivator>();
         var mainLoop = serviceProvider.GetRequiredService<MainAppLoop>();
 
         // Use the services
         stereoKitInitializer.Initialize();
-        widgetCreator.CreateWidgets();
         mainLoop.Run();
     }
 }
