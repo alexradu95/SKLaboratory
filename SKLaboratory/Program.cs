@@ -2,6 +2,7 @@
 using SKLaboratory.ApplicationLifecycle;
 using SKLaboratory.Factories;
 using SKLaboratory.Initialization;
+using StereoKit;
 
 namespace SKLaboratory;
 
@@ -16,8 +17,6 @@ internal class Program
         // Register your services
         serviceCollection.AddSingleton<WidgetFactory>();
         serviceCollection.AddSingleton<WidgetManager>();
-        serviceCollection.AddSingleton<StereoKitInitializer>();
-        serviceCollection.AddSingleton<MainAppLoop>();
 
         // Build the service provider
         var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -26,8 +25,21 @@ internal class Program
         var stereoKitInitializer = serviceProvider.GetRequiredService<StereoKitInitializer>();
         var mainLoop = serviceProvider.GetRequiredService<MainAppLoop>();
 
-        // Use the services
-        stereoKitInitializer.Initialize();
-        mainLoop.Run();
+        var settings = new SKSettings
+        {
+            appName = "SKLaboratory",
+            assetsFolder = "Assets",
+        };
+
+        SK.Initialize(settings);
+
+
+        SK.Run(() =>
+        {
+            foreach (var widget in _widgetManager.ActiveWidgetsList.Values)
+            {
+                widget.Draw();
+            }
+        });
     }
 }
