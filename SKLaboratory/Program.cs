@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SKLaboratory.ApplicationLifecycle;
 using SKLaboratory.Factories;
-using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Initialization;
-using StereoKit;
 
 namespace SKLaboratory;
 
