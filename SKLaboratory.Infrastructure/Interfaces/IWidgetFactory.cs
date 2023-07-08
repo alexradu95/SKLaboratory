@@ -2,6 +2,9 @@
 
 public interface IWidgetFactory
 {
+
+    public List<Type> WidgetTypes { get; }
+
     /// <summary>
     /// Creates a new widget of the specified type.
     /// </summary>

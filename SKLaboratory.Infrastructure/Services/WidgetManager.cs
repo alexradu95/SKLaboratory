@@ -1,65 +1,56 @@
 ﻿using SKLaboratory.Factories;
 using SKLaboratory.Infrastructure.Interfaces;
+using System;
+using System.Collections.Generic;
 
 public class WidgetManager
 {
-    private readonly Dictionary<Type, IWidget> ActiveWidgets = new Dictionary<Type, IWidget>();
+    private readonly Dictionary<Type, IWidget> _activeWidgets = new Dictionary<Type, IWidget>();
     private readonly IWidgetFactory _widgetFactory;
 
-    public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => ActiveWidgets;
+    public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => _activeWidgets;
 
     public WidgetManager(IWidgetFactory widgetFactory)
     {
         _widgetFactory = widgetFactory;
     }
 
-    public bool ActivateWidget(Type widgetType)
+    public bool ToggleWidget(Type widgetType)
     {
         try
         {
-            if (ActiveWidgets.ContainsKey(widgetType))
+            if (_activeWidgets.ContainsKey(widgetType))
             {
-                return false;
+                return DeactivateWidget(widgetType);
             }
-
-            var widget = _widgetFactory.CreateWidget(widgetType);
-            if (widget == null || !widget.Initialize())
+            else
             {
-                return false;
+                return ActivateWidget(widgetType);
             }
-
-            ActiveWidgets.Add(widgetType, widget);
-            return true;
-        }
-        catch (UnknownWidgetTypeException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return false;
-        }
-        catch (WidgetCreationFailedException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return false;
-        }
-    }
-
-    public bool DeactivateWidget(Type widgetType)
-    {
-        if (!ActiveWidgets.ContainsKey(widgetType))
-        {
-            return false;
-        }
-
-        try
-        {
-            ActiveWidgets[widgetType].Shutdown();
-            ActiveWidgets.Remove(widgetType);
-            return true;
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
             return false;
         }
+    }
+
+    private bool ActivateWidget(Type widgetType)
+    {
+        var widget = _widgetFactory.CreateWidget(widgetType);
+        if (widget == null || !widget.Initialize())
+        {
+            return false;
+        }
+
+        _activeWidgets.Add(widgetType, widget);
+        return true;
+    }
+
+    private bool DeactivateWidget(Type widgetType)
+    {
+        _activeWidgets[widgetType].Shutdown();
+        _activeWidgets.Remove(widgetType);
+        return true;
     }
 }

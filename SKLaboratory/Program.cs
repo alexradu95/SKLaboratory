@@ -5,8 +5,10 @@ using SKLaboratory.Factories;
 using SKLaboratory.Initialization;
 using SKLaboratory.Widgets;
 using StereoKit;
+using StereoKit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SKLaboratory
 {
@@ -15,7 +17,7 @@ namespace SKLaboratory
         static void Main(string[] args)
         {
             var serviceProvider = new ServiceProviderBuilder().Build();
-            
+
             // Initialize StereoKit
             var stereoKitInitializer = serviceProvider.GetRequiredService<StereoKitInitializer>();
             stereoKitInitializer.Initialize();
@@ -27,17 +29,33 @@ namespace SKLaboratory
             widgetRegistrar.RegisterWidget<FloorWidget>();
 
             // Activate default Widgets
-            ActivateStartWidgets(serviceProvider);
+            var widgetFactory = serviceProvider.GetRequiredService<IWidgetFactory>();
+            var widgetManager = serviceProvider.GetRequiredService<WidgetManager>();
+            ConfigureHandMenu(widgetFactory, widgetManager);
 
             // Run Main loop
             RunMainLoop(serviceProvider);
         }
 
-        private static void ActivateStartWidgets(ServiceProvider serviceProvider)
+        private static void ConfigureHandMenu(IWidgetFactory widgetFactory, WidgetManager widgetManager)
         {
-            var widgetProvider = serviceProvider.GetRequiredService<WidgetManager>();
-            widgetProvider.ActivateWidget(typeof(CubeWidget));
-            widgetProvider.ActivateWidget(typeof(FloorWidget));
+
+            var widgetMenuItems = widgetFactory.WidgetTypes
+                .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidget(widgetType)))
+                .ToArray();
+
+            SK.AddStepper(new HandMenuRadial(
+                new HandRadialLayer("Widgets", widgetMenuItems),
+                new HandRadialLayer("File",
+                    new HandMenuItem("New", null, () => Log.Info("New")),
+                    new HandMenuItem("Open", null, () => Log.Info("Open")),
+                    new HandMenuItem("Close", null, () => Log.Info("Close")),
+                    new HandMenuItem("Back", null, null, HandMenuAction.Back)),
+                new HandRadialLayer("Edit",
+                    new HandMenuItem("Copy", null, () => Log.Info("Copy")),
+                    new HandMenuItem("Paste", null, () => Log.Info("Paste")),
+                    new HandMenuItem("Back", null, null, HandMenuAction.Back))));
+
         }
 
         private static void RunMainLoop(ServiceProvider serviceProvider)

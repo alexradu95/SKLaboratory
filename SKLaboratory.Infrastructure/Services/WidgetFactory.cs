@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using SKLaboratory.Factories;
+﻿using SKLaboratory.Factories;
 using SKLaboratory.Infrastructure.Interfaces;
 
 public class WidgetFactory : IWidgetFactory
 {
     private readonly Dictionary<Type, Func<IWidget>> _widgetCreators = new Dictionary<Type, Func<IWidget>>();
+
+    public List<Type> WidgetTypes => _widgetCreators.Keys.ToList();
 
     public IWidget CreateWidget(Type widgetType)
     {
