@@ -9,57 +9,32 @@ using System.Linq;
 namespace SKLaboratory
 {
     /// <summary>
-    /// The main entry point for the application.
+    /// The main class of the application.
     /// </summary>
     internal class Program
     {
-        /// <summary>
-        /// The service provider for managing dependencies.
-        /// </summary>
-        private static IServiceProvider _serviceProvider;
+        // Declare dependencies that will be injected via the constructor
+        private readonly IWidgetFactory _widgetFactory;
+        private readonly IWidgetManager _widgetManager;
 
         /// <summary>
-        /// The main method for the application.
+        /// Constructs an instance of the Program class.
         /// </summary>
-        static void Main(string[] args)
+        /// <param name="stereoKitInitializer">An instance of StereoKitInitializer.</param>
+        /// <param name="widgetFactory">An instance of IWidgetFactory.</param>
+        /// <param name="widgetManager">An instance of IWidgetManager.</param>
+        public Program(IWidgetFactory widgetFactory, IWidgetManager widgetManager)
         {
-            // Configure the services needed for the application
-            ConfigureServices();
-
-            // Initialize the StereoKit library
-            InitializeStereoKit();
-
-            // Register the widgets that will be used in the application
-            RegisterWidgets();
-
-            // Configure the hand menu for the application
-            ConfigureHandMenu();
-
-            // Start the main loop of the application
-            RunMainLoop();
+            _widgetFactory = widgetFactory;
+            _widgetManager = widgetManager;
         }
 
         /// <summary>
-        /// Configures the services for the application.
+        /// Runs the application.
         /// </summary>
-        private static void ConfigureServices()
+        public void Run()
         {
-            // Create a new service collection to register services
-            var serviceCollection = new ServiceCollection();
-
-            // Register the required services
-            serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
-            serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
-
-            // Build the service provider from the service collection
-            _serviceProvider = serviceCollection.BuildServiceProvider();
-        }
-
-        /// <summary>
-        /// Initializes the StereoKit library.
-        /// </summary>
-        private static void InitializeStereoKit()
-        {
+            // Initialize StereoKit
             var settings = new SKSettings
             {
                 appName = "SKLaboratory",
@@ -67,62 +42,76 @@ namespace SKLaboratory
             };
 
             SK.Initialize(settings);
-        }
 
-        /// <summary>
-        /// Registers the widgets for the application.
-        /// </summary>
-        private static void RegisterWidgets()
-        {
-            // Get the widget registrar from the service provider and register the widgets
-            var widgetRegistrar = _serviceProvider.GetRequiredService<IWidgetFactory>();
-            widgetRegistrar.RegisterWidget<CubeWidget>();
-            widgetRegistrar.RegisterWidget<FloorWidget>();
+            // Register Widgets
+            _widgetFactory.RegisterWidget<CubeWidget>();
+            _widgetFactory.RegisterWidget<FloorWidget>();
+
+            // Configure the hand menu
+            ConfigureHandMenu();
+
+            // Run the main loop
+            RunMainLoop();
         }
 
         /// <summary>
         /// Configures the hand menu for the application.
         /// </summary>
-        private static void ConfigureHandMenu()
+        private void ConfigureHandMenu()
         {
-            // Get the widget factory and widget manager from the service provider
-            var widgetFactory = _serviceProvider.GetRequiredService<IWidgetFactory>();
-            var widgetManager = _serviceProvider.GetRequiredService<IWidgetManager>();
-
-            // Create the menu items for the hand menu
-            var widgetMenuItems = widgetFactory.WidgetTypes
-                .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidget(widgetType)))
+            var widgetMenuItems = _widgetFactory.WidgetTypes
+                .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => _widgetManager.ToggleWidget(widgetType)))
                 .ToList();
 
-            // Add a back button to the menu items
             widgetMenuItems.Add(new HandMenuItem("Back", null, null, HandMenuAction.Back));
 
-            // Create the hand menu with the menu items
             var handMenu = SK.AddStepper(new HandMenuRadial(
                 new HandRadialLayer("Root",
                     new HandMenuItem("Log", null, () => Log.Info("Alex_Radu")),
                     new HandMenuItem("Boss 👻", null, () => Log.Info("Big_Boss")),
                     new HandMenuItem("Widgets", null, null, "Widgets")),
                 new HandRadialLayer("Widgets", widgetMenuItems.ToArray())
-            ));
+                ));
         }
 
         /// <summary>
         /// Runs the main loop of the application.
         /// </summary>
-        private static void RunMainLoop()
+        private void RunMainLoop()
         {
-            // Get the widget provider from the service provider
-            var widgetProvider = _serviceProvider.GetRequiredService<IWidgetManager>();
-
-            // Start the main loop of the application
             SK.Run(() =>
             {
-                foreach (var widget in widgetProvider.ActiveWidgetsList.Values)
+                foreach (var widget in _widgetManager.ActiveWidgetsList.Values)
                 {
                     widget.Draw();
                 }
             });
+        }
+
+        /// <summary>
+        /// The entry point of the application.
+        /// </summary>
+        /// <param name="args">Command-line arguments.</param>
+        static void Main(string[] args)
+        {
+            // Build the service provider
+            // Create a new service collection to register services
+            var serviceCollection = new ServiceCollection();
+
+            // Register the required services
+            serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
+            serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
+            serviceCollection.AddSingleton<Program>();
+
+            // Build the service provider from the service collection
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
+
+            // Retrieve an instance of the Program class from the service provider
+            var program = serviceProvider.GetRequiredService<Program>();
+
+            // Run the application
+            program.Run();
         }
     }
 }

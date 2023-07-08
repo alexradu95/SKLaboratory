@@ -1,4 +1,5 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
+using StereoKit;
 
 public class WidgetManager : IWidgetManager
 {
@@ -27,7 +28,7 @@ public class WidgetManager : IWidgetManager
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Log.Err(ex.Message);
             return false;
         }
     }
