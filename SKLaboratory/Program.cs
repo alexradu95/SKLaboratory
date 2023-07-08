@@ -42,19 +42,17 @@ namespace SKLaboratory
 
             var widgetMenuItems = widgetFactory.WidgetTypes
                 .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidget(widgetType)))
-                .ToArray();
+                .ToList();
 
-            SK.AddStepper(new HandMenuRadial(
-                new HandRadialLayer("Widgets", widgetMenuItems),
-                new HandRadialLayer("File",
-                    new HandMenuItem("New", null, () => Log.Info("New")),
-                    new HandMenuItem("Open", null, () => Log.Info("Open")),
-                    new HandMenuItem("Close", null, () => Log.Info("Close")),
-                    new HandMenuItem("Back", null, null, HandMenuAction.Back)),
-                new HandRadialLayer("Edit",
-                    new HandMenuItem("Copy", null, () => Log.Info("Copy")),
-                    new HandMenuItem("Paste", null, () => Log.Info("Paste")),
-                    new HandMenuItem("Back", null, null, HandMenuAction.Back))));
+            widgetMenuItems.Add(new HandMenuItem("Back", null, null, HandMenuAction.Back));
+
+            var handMenu = SK.AddStepper(new HandMenuRadial(
+                new HandRadialLayer("Root",
+                    new HandMenuItem("Log", null, () => Log.Info("Alex_Radu")),
+                    new HandMenuItem("Boss 👻", null, () => Log.Info("Big_Boss")),
+                    new HandMenuItem("Widgets", null, null, "Widgets")),
+                new HandRadialLayer("Widgets", widgetMenuItems.ToArray())
+                ));
 
         }
 
