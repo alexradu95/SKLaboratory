@@ -1,14 +1,14 @@
 ﻿using SKLaboratory.Factories;
 using SKLaboratory.Infrastructure.Interfaces;
 
-public class WidgetManager
+public class WidgetProvider
 {
     private readonly Dictionary<string, IWidget> ActiveWidgets = new Dictionary<string, IWidget>();
     private readonly IWidgetFactory _widgetFactory;
 
     public IReadOnlyDictionary<string, IWidget> ActiveWidgetsList => ActiveWidgets;
 
-    public WidgetManager(IWidgetFactory widgetFactory)
+    public WidgetProvider(IWidgetFactory widgetFactory)
     {
         _widgetFactory = widgetFactory;
     }
@@ -58,5 +58,20 @@ public class WidgetManager
             Console.WriteLine(ex.Message);
             return false;
         }
+    }
+
+    public void RegisterWidget(Type widgetType)
+    {
+        // Check if the type is a subclass of IWidget
+        if (!typeof(IWidget).IsAssignableFrom(widgetType))
+        {
+            throw new ArgumentException($"Type must be a subclass of IWidget, but was {widgetType}", nameof(widgetType));
+        }
+
+        // Create a function that creates a new instance of the widget
+        Func<IWidget> createWidgetFunc = () => (IWidget)Activator.CreateInstance(widgetType);
+
+        // Register the widget with the factory
+        _widgetFactory.RegisterWidget(widgetType.Name, createWidgetFunc);
     }
 }

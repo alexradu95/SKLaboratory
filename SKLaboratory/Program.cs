@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SKLaboratory.Factories;
+using SKLaboratory.Widgets;
 using StereoKit;
 
 namespace SKLaboratory;
@@ -8,8 +9,24 @@ internal class Program
 {
     static void Main(string[] args)
     {
+        // Initialize StereoKit
+        InitializeStereoKit();
+
+        // Build ServiceProvider and Register Core Infrastructure Services
         ServiceProvider serviceProvider = BuildServiceProvider();
 
+        // Register Widgets
+        RegisterWidgets(serviceProvider);
+
+        // Activate Start Widgets
+        ActivateStartWidgets(serviceProvider);
+
+        // Run the main loop
+        RunMainLoop(serviceProvider);
+    }
+
+    private static void InitializeStereoKit()
+    {
         var settings = new SKSettings
         {
             appName = "SKLaboratory",
@@ -17,31 +34,44 @@ internal class Program
         };
 
         SK.Initialize(settings);
-
-        // Use the service provider to get your services
-        var widgetManager = serviceProvider.GetRequiredService<WidgetManager>();
-
-
-        SK.Run(() =>
-        {
-            foreach (var widget in widgetManager.ActiveWidgetsList.Values)
-            {
-                widget.Draw();
-            }
-        });
     }
 
     private static ServiceProvider BuildServiceProvider()
     {
-        // Create a new service collection
         var serviceCollection = new ServiceCollection();
 
-        // Register your services
         serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
-        serviceCollection.AddSingleton<WidgetManager>();
+        serviceCollection.AddSingleton<WidgetProvider>();
 
-        // Build the service provider
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        return serviceProvider;
+        return serviceCollection.BuildServiceProvider();
+    }
+
+    private static void RegisterWidgets(ServiceProvider serviceProvider)
+    {
+        var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
+
+        widgetProvider.RegisterWidget(typeof(CubeWidget));
+        widgetProvider.RegisterWidget(typeof(FloorWidget));
+    }
+
+    private static void ActivateStartWidgets(ServiceProvider serviceProvider)
+    {
+        var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
+
+        widgetProvider.ActivateWidget(nameof(CubeWidget));
+        widgetProvider.ActivateWidget(nameof(FloorWidget));
+    }
+
+    private static void RunMainLoop(ServiceProvider serviceProvider)
+    {
+        var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
+
+        SK.Run(() =>
+        {
+            foreach (var widget in widgetProvider.ActiveWidgetsList.Values)
+            {
+                widget.Draw();
+            }
+        });
     }
 }
