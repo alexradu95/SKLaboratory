@@ -9,11 +9,6 @@ namespace SKLaboratory;
 
 internal class Program
 {
-    private static WidgetManager widgetManager = new WidgetManager(new WidgetFactory());
-    private static StereoKitInitializer stereoKitInitializer = new StereoKitInitializer();
-    private static StartupWidgetActivator widgetCreator = new StartupWidgetActivator(widgetManager);
-    private static MainAppLoop mainLoop = new MainAppLoop(widgetManager);
-
     static void Main(string[] args)
     {
 
