@@ -8,7 +8,7 @@ public interface IWidgetFactory
     /// <param name="widgetType">The type of the widget to create.</param>
     /// <returns>A new widget of the specified type.</returns>
     /// <exception cref="UnknownWidgetTypeException">Thrown when the specified widget type is not registered.</exception>
-    IWidget CreateWidget(string widgetType);
+    IWidget CreateWidget(Type widgetType);
 
     /// <summary>
     /// Registers a new widget type with the factory.
@@ -29,5 +29,5 @@ public interface IWidgetFactory
     /// You're passing a function that creates a new <see cref="CubeWidget"/> as the second parameter.
     /// The factory can then use this function to create new <see cref="CubeWidget"/> instances.
     /// </example>
-    void RegisterWidget(string widgetType, Func<IWidget> createWidgetFunc);
+    void RegisterWidget(Type widgetType, Func<IWidget> createWidgetFunc);
 }

@@ -58,8 +58,8 @@ internal class Program
     {
         var widgetProvider = serviceProvider.GetRequiredService<WidgetProvider>();
 
-        widgetProvider.ActivateWidget(nameof(CubeWidget));
-        widgetProvider.ActivateWidget(nameof(FloorWidget));
+        widgetProvider.ActivateWidget(typeof(CubeWidget));
+        widgetProvider.ActivateWidget(typeof(FloorWidget));
     }
 
     private static void RunMainLoop(ServiceProvider serviceProvider)

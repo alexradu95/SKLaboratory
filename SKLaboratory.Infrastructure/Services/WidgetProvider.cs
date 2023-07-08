@@ -3,17 +3,17 @@ using SKLaboratory.Infrastructure.Interfaces;
 
 public class WidgetProvider
 {
-    private readonly Dictionary<string, IWidget> ActiveWidgets = new Dictionary<string, IWidget>();
+    private readonly Dictionary<Type, IWidget> ActiveWidgets = new Dictionary<Type, IWidget>();
     private readonly IWidgetFactory _widgetFactory;
 
-    public IReadOnlyDictionary<string, IWidget> ActiveWidgetsList => ActiveWidgets;
+    public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => ActiveWidgets;
 
     public WidgetProvider(IWidgetFactory widgetFactory)
     {
         _widgetFactory = widgetFactory;
     }
 
-    public bool ActivateWidget(string widgetType)
+    public bool ActivateWidget(Type widgetType)
     {
         try
         {
@@ -39,7 +39,7 @@ public class WidgetProvider
         }
     }
 
-    public bool DeactivateWidget(string widgetType)
+    public bool DeactivateWidget(Type widgetType)
     {
         if (!ActiveWidgets.ContainsKey(widgetType))
         {
@@ -72,6 +72,6 @@ public class WidgetProvider
         Func<IWidget> createWidgetFunc = () => (IWidget)Activator.CreateInstance(widgetType);
 
         // Register the widget with the factory
-        _widgetFactory.RegisterWidget(widgetType.Name, createWidgetFunc);
+        _widgetFactory.RegisterWidget(widgetType, createWidgetFunc);
     }
 }
