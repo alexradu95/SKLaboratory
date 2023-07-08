@@ -33,7 +33,11 @@ public class WidgetManager
         }
         catch (UnknownWidgetTypeException ex)
         {
-            // Log the error or handle it as appropriate
+            Console.WriteLine(ex.Message);
+            return false;
+        }
+        catch (WidgetCreationFailedException ex)
+        {
             Console.WriteLine(ex.Message);
             return false;
         }
@@ -54,7 +58,6 @@ public class WidgetManager
         }
         catch (Exception ex)
         {
-            // Log the error or handle it as appropriate
             Console.WriteLine(ex.Message);
             return false;
         }
