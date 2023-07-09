@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SKLaboratory.Infrastructure;
 using SKLaboratory.Infrastructure.Interfaces;
+using SKLaboratory.Infrastructure.Steppers;
 using SKLaboratory.Widgets;
 using StereoKit;
 using StereoKit.Framework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace SKLaboratory
 {
@@ -34,6 +36,7 @@ namespace SKLaboratory
             // Register Widgets
             widgetFactory.RegisterWidget<CubeWidget>();
             widgetFactory.RegisterWidget<FloorWidget>();
+            widgetFactory.RegisterWidget<PassthroughWidget>();
         }
 
         private static void AddPostInitSteppers()
@@ -43,7 +46,7 @@ namespace SKLaboratory
 
         private static void AddPreInitSteppers()
         {
-            
+            SK.AddStepper<PassthroughStepper>();
         }
 
         private static void BuildServiceProvider()

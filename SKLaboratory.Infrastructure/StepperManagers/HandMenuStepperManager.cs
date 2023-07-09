@@ -1,4 +1,5 @@
 ﻿using global::SKLaboratory.Infrastructure.Interfaces;
+using SKLaboratory.Infrastructure.Steppers;
 using StereoKit;
 using StereoKit.Framework;
 
@@ -19,19 +20,19 @@ namespace SKLaboratory.Infrastructure
 
         public void Initialize()
         {
+            List<HandMenuItem> widgetMenuItems = ConstructWidgetsMenu();
+
+            currentHandMenu = SK.AddStepper(new HandMenuRadial(
+                new HandRadialLayer("Root", widgetMenuItems.ToArray())));
+        }
+
+        private List<HandMenuItem> ConstructWidgetsMenu()
+        {
             var widgetMenuItems = _widgetFactory.WidgetTypes
                 .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => _widgetManager.ToggleWidget(widgetType)))
                 .ToList();
 
-            widgetMenuItems.Add(new HandMenuItem("Back", null, null, HandMenuAction.Back));
-
-            currentHandMenu = SK.AddStepper(new HandMenuRadial(
-                new HandRadialLayer("Root",
-                    new HandMenuItem("Log", null, () => Log.Info("Alex_Radu")),
-                    new HandMenuItem("Boss 👻", null, () => Log.Info("Big_Boss")),
-                    new HandMenuItem("Widgets", null, null, "Widgets")),
-                new HandRadialLayer("Widgets", widgetMenuItems.ToArray())
-            ));
+            return widgetMenuItems;
         }
 
         public void Shutdown()
