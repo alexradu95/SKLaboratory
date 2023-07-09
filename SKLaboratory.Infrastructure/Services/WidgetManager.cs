@@ -1,4 +1,5 @@
-﻿using SKLaboratory.Infrastructure.Interfaces;
+﻿using SKLaboratory.Factories;
+using SKLaboratory.Infrastructure.Interfaces;
 using StereoKit;
 
 public class WidgetManager : IWidgetManager
@@ -26,12 +27,23 @@ public class WidgetManager : IWidgetManager
                 return ActivateWidget(widgetType);
             }
         }
+        catch (WidgetCreationFailedException ex)
+        {
+            Log.Err($"Failed to create or deactivate widget of type: {widgetType}. {ex.Message}");
+            return false;
+        }
+        catch (UnknownWidgetTypeException ex)
+        {
+            Log.Err($"Unknown widget type: {widgetType}. {ex.Message}");
+            return false;
+        }
         catch (Exception ex)
         {
-            Log.Err(ex.Message);
+            Log.Err($"An unexpected error occurred: {ex.Message}");
             return false;
         }
     }
+
 
     private bool ActivateWidget(Type widgetType)
     {

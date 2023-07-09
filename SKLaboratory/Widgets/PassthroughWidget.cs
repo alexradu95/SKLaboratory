@@ -1,4 +1,5 @@
-﻿using SKLaboratory.Infrastructure.Interfaces;
+﻿using SKLaboratory.Infrastructure.Base;
+using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Infrastructure.Steppers;
 using StereoKit;
 using StereoKit.Framework;
@@ -7,39 +8,31 @@ using System;
 namespace SKLaboratory.Widgets;
 
 
-class PassthroughWidget : IWidget
+class PassthroughWidget : BaseWidget
 {
 
     PassthroughStepper passthrough;
 
-    public Matrix Transform => _pose.ToMatrix();
+    public override Matrix Transform => _pose.ToMatrix();
 
-    public Pose Pose => _pose;
+    public override Pose Pose => _pose;
 
-    public Guid Id => _id;
-
-    public bool IsActive { get; set; }
-
-    private Guid _id;
 
     private Pose _pose;
 
-    public bool Initialize()
+    public override bool Initialize()
     {
-        _id = Guid.NewGuid();
-        // Create assets used by the app
         _pose = new Pose(0, 0, -0.5f);
         passthrough = SK.GetOrCreateStepper<PassthroughStepper>();
-        IsActive = true;
-        return true;
+        return base.Initialize();
     }
 
-    public void Shutdown()
+    public override void Shutdown()
     {
         IsActive = false;
     }
 
-    public void Draw()
+    public override void Draw()
     {
         if (!IsActive)
         {
