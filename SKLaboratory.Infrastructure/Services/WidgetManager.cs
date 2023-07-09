@@ -1,6 +1,5 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
 using StereoKit;
-using StereoKit.Framework;
 
 public class WidgetManager : IWidgetManager
 {
@@ -12,13 +11,6 @@ public class WidgetManager : IWidgetManager
     public WidgetManager(IWidgetFactory widgetFactory)
     {
         _widgetFactory = widgetFactory;
-
-         var widgetMenuItems = _widgetFactory.WidgetTypes
-        .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => ToggleWidget(widgetType)))
-        .ToList();
-
-        // Construct a StereoKit Framework HandMenu based on the widgetMenuItems
-        SK.AddStepper(new HandMenuRadial(new HandRadialLayer("Root", widgetMenuItems.ToArray())));
     }
 
     public bool ToggleWidget(Type widgetType)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SKLaboratory.Infrastructure;
 using SKLaboratory.Infrastructure.Interfaces;
+using SKLaboratory.Infrastructure.Services;
 using SKLaboratory.Infrastructure.Steppers;
 using SKLaboratory.Widgets;
 using StereoKit;
@@ -48,6 +49,7 @@ namespace SKLaboratory
 
             serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
             serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
+            serviceCollection.AddSingleton<UIManager>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
@@ -66,6 +68,7 @@ namespace SKLaboratory
         private static void RunMainLoop()
         {
             var widgetProvider = _serviceProvider.GetRequiredService<IWidgetManager>();
+            var uiManager = _serviceProvider.GetRequiredService<UIManager>(); //we get it in order to trigger the constructor and add it
 
             SK.Run(() =>
             {
