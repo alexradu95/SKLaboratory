@@ -25,8 +25,6 @@ namespace SKLaboratory
 
             RegisterWidgetsToFactory();
 
-            AddPostInitSteppers();
-
             RunMainLoop();
         }
 
@@ -37,11 +35,6 @@ namespace SKLaboratory
             widgetFactory.RegisterWidget<CubeWidget>();
             widgetFactory.RegisterWidget<FloorWidget>();
             widgetFactory.RegisterWidget<PassthroughWidget>();
-        }
-
-        private static void AddPostInitSteppers()
-        {
-            _serviceProvider.GetService<HandMenuStepperManager>().Initialize();
         }
 
         private static void AddPreInitSteppers()
@@ -55,7 +48,6 @@ namespace SKLaboratory
 
             serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
             serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
-            serviceCollection.AddSingleton<HandMenuStepperManager>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }

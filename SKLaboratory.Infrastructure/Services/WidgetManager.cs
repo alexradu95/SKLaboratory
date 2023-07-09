@@ -1,16 +1,25 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
 using StereoKit;
+using StereoKit.Framework;
 
 public class WidgetManager : IWidgetManager
 {
     private readonly Dictionary<Type, IWidget> _activeWidgets = new Dictionary<Type, IWidget>();
     private readonly IWidgetFactory _widgetFactory;
 
+    HandMenuRadial? currentHandMenu;
+
     public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => _activeWidgets;
 
     public WidgetManager(IWidgetFactory widgetFactory)
     {
         _widgetFactory = widgetFactory;
+
+         var widgetMenuItems = _widgetFactory.WidgetTypes
+        .Select(widgetType => new HandMenuItem(widgetType.Name, null, () => ToggleWidget(widgetType)))
+        .ToList();
+
+         currentHandMenu = SK.AddStepper(new HandMenuRadial(new HandRadialLayer("Root", widgetMenuItems.ToArray())));
     }
 
     public bool ToggleWidget(Type widgetType)
