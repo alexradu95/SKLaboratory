@@ -20,11 +20,10 @@ class PassthroughWidget : BaseWidget
 
     private Pose _pose;
 
-    public override bool Initialize()
+    public PassthroughWidget() : base()
     {
         _pose = new Pose(0, 0, -0.5f);
         passthrough = SK.GetOrCreateStepper<PassthroughStepper>();
-        return base.Initialize();
     }
 
     public override void Shutdown()

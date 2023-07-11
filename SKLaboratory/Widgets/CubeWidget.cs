@@ -16,11 +16,10 @@ namespace SKLaboratory.Widgets
 
         public override Pose Pose => _pose;
 
-        public override bool Initialize()
+        public CubeWidget() : base() 
         {
             _pose = new Pose(0, 0, -0.5f);
             cube = Model.FromMesh(Mesh.GenerateRoundedCube(Vec3.One * 0.1f, 0.02f), Material.UI);
-            return base.Initialize();
         }
 
         public override void Shutdown()

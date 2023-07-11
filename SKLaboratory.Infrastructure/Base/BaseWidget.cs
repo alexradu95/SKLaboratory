@@ -17,12 +17,12 @@ namespace SKLaboratory.Infrastructure.Base
 
         public abstract Pose Pose { get; }
 
-        public virtual bool Initialize()
+        public BaseWidget()
         {
             Id = Guid.NewGuid();
             IsActive = true;
-            return true;
         }
+
 
         public abstract void Shutdown();
         public abstract void Draw();

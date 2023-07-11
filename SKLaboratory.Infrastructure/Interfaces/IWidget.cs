@@ -8,11 +8,6 @@ namespace SKLaboratory.Infrastructure.Interfaces;
 public interface IHasLifecycle
 {
     /// <summary>
-    /// Initializes the Widget
-    /// </summary>
-    bool Initialize();
-
-    /// <summary>
     /// Draws the widget.
     /// </summary>
     void Draw();

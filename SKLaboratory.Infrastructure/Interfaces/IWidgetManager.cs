@@ -6,6 +6,6 @@ namespace SKLaboratory.Infrastructure.Interfaces
     {
         public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList { get; }
 
-        public bool ToggleWidget(Type widgetType);
+        public void ToggleWidget(Type widgetType);
     }
 }

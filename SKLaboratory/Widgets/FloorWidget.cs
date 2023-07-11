@@ -13,19 +13,15 @@ namespace SKLaboratory.Widgets
 
         private Matrix _transform;
 
-
-
-
-        Material floorMaterial;
-
-        public bool Initialize()
+        public FloorWidget() : base()
         {
-
             _transform = Matrix.TS(0, -1.5f, 0, new Vec3(30, 0.1f, 30));
             floorMaterial = new Material("floor.hlsl");
             floorMaterial.Transparency = Transparency.Blend;
-            return base.Initialize(); ;
         }
+
+
+        Material floorMaterial;
 
         public override void Shutdown()
         {
