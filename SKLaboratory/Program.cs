@@ -21,21 +21,9 @@ internal class Program
 
         RegisterWidgetsToFactory();
 
+        AddPostInitSteppers();
+
         RunMainLoop();
-    }
-
-    private static void RegisterWidgetsToFactory()
-    {
-        IWidgetFactory widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
-        // Register Widgets
-        widgetFactory.RegisterWidget<CubeWidget>();
-        widgetFactory.RegisterWidget<FloorWidget>();
-        widgetFactory.RegisterWidget<PassthroughWidget>();
-    }
-
-    private static void AddPreInitSteppers()
-    {
-        SK.AddStepper<PassthroughStepper>();
     }
 
     private static void BuildServiceProvider()
@@ -49,6 +37,11 @@ internal class Program
         _serviceProvider = serviceCollection.BuildServiceProvider();
     }
 
+    private static void AddPreInitSteppers()
+    {
+        SK.AddStepper<PassthroughStepper>();
+    }
+
     private static void InitializeStereoKit()
     {
         SKSettings settings = new()
@@ -60,16 +53,28 @@ internal class Program
         SK.Initialize(settings);
     }
 
+    private static void RegisterWidgetsToFactory()
+    {
+        IWidgetFactory widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
+        // Register Widgets
+        widgetFactory.RegisterWidget<CubeWidget>();
+        widgetFactory.RegisterWidget<FloorWidget>();
+        widgetFactory.RegisterWidget<PassthroughWidget>();
+    }
+
+
+    private static void AddPostInitSteppers()
+    {
+        UIManager.InitializeHandMenuStepper(_serviceProvider.GetService<IWidgetManager>(),
+            _serviceProvider.GetService<IWidgetFactory>());
+    }
+
     private static void RunMainLoop()
     {
         IWidgetManager widgetProvider = _serviceProvider.GetRequiredService<IWidgetManager>();
-        UIManager
-            uiManager = _serviceProvider
-                .GetRequiredService<UIManager>(); //we get it in order to trigger the constructor and add it
-
         SK.Run(() =>
         {
-            foreach (IWidget widget in widgetProvider.ActiveWidgetsList.Values) widget.Draw();
+            foreach (IWidget widget in widgetProvider.ActiveWidgetsList.Values) widget.OnFrameUpdate();
         });
     }
 }

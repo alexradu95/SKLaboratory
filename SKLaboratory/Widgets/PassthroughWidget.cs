@@ -15,16 +15,8 @@ internal class PassthroughWidget : BaseWidget
         passthrough = SK.GetOrCreateStepper<PassthroughStepper>();
     }
 
-    public override Matrix Transform => _pose.ToMatrix();
 
-    public override Pose Pose => _pose;
-
-    public override void Shutdown()
-    {
-        IsActive = false;
-    }
-
-    public override void Draw()
+    public override void OnFrameUpdate()
     {
         if (!IsActive) return;
         UI.WindowBegin("Passthrough Settings", ref _pose);

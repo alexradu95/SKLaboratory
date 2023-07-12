@@ -2,48 +2,23 @@
 
 namespace SKLaboratory.Infrastructure.Interfaces;
 
-/// <summary>
-///     Interface for widgets that can be initialized.
-/// </summary>
-public interface IHasLifecycle
-{
-    /// <summary>
-    ///     Draws the widget.
-    /// </summary>
-    void Draw();
-
-    /// <summary>
-    ///     Shuts down the widget.
-    /// </summary>
-    void Shutdown();
-}
 
 /// <summary>
-///     Interface for widgets have a position in 3D space
+///     Interface for widgets. Widgets are components that when active, the OnFrameUpdate is run every frame.
 /// </summary>
-public interface IHasPosition
-{
-    public Matrix Transform { get; }
-
-    public Pose Pose { get; }
-}
-
-/// <summary>
-///     Interface for widgets have a position in 3D space
-/// </summary>
-public interface IHasState
-{
-    // Could be extended to WidgetState if it is needed in the future
-    bool IsActive { get; set; }
-}
-
-/// <summary>
-///     Interface for widgets. Widgets are components that can be initialized, drawn, and shut down.
-/// </summary>
-public interface IWidget : IHasLifecycle, IHasPosition
+public interface IWidget
 {
     /// <summary>
     ///     Gets the unique identifier for the widget.
     /// </summary>
+    /// Pose
     public Guid Id { get; }
+
+    // Could be extended to WidgetState if it is needed in the future
+    public bool IsActive { get; protected set; }
+
+    /// <summary>
+    /// Runs this method, on every frame of SK
+    /// </summary>
+    void OnFrameUpdate();
 }

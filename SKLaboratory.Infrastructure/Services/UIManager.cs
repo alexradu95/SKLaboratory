@@ -6,7 +6,7 @@ namespace SKLaboratory.Infrastructure.Services;
 
 public class UIManager
 {
-    public UIManager(IWidgetManager widgetManager, IWidgetFactory widgetFactory)
+    public static void InitializeHandMenuStepper(IWidgetManager widgetManager, IWidgetFactory widgetFactory)
     {
         var widgetMenuItems = widgetFactory.WidgetTypes.Select(widgetType =>
             new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidget(widgetType))).ToArray();

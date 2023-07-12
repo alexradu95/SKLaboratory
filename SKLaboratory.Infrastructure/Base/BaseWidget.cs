@@ -5,20 +5,15 @@ namespace SKLaboratory.Infrastructure.Base;
 
 public abstract class BaseWidget : IWidget
 {
-    public BaseWidget()
+    protected BaseWidget()
     {
         Id = Guid.NewGuid();
         IsActive = true;
     }
 
-    public bool IsActive { get; protected set; }
+
     public Guid Id { get; }
+    public bool IsActive { get; set; }
 
-    public abstract Matrix Transform { get; }
-
-    public abstract Pose Pose { get; }
-
-
-    public abstract void Shutdown();
-    public abstract void Draw();
+    public abstract void OnFrameUpdate();
 }

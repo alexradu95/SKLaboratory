@@ -15,7 +15,5 @@ public interface IWidgetFactory
     /// <summary>
     ///     Registers a new widget type with the factory.
     /// </summary>
-    /// <param name="widgetType">The type of the widget to register.</param>
-    /// </example>
     void RegisterWidget<T>() where T : IWidget;
 }

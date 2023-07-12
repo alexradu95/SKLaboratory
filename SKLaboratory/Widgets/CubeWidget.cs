@@ -6,28 +6,21 @@ namespace SKLaboratory;
 public class CubeWidget : BaseWidget
 {
     private Pose _pose;
-    private Model cube;
+    private Model _cube;
 
     public CubeWidget()
     {
         _pose = new Pose(0, 0, -0.5f);
-        cube = Model.FromMesh(Mesh.GenerateRoundedCube(Vec3.One * 0.1f, 0.02f), Material.UI);
+        _cube = Model.FromMesh(Mesh.GenerateRoundedCube(Vec3.One * 0.1f, 0.02f), Material.UI);
     }
 
-    public override Matrix Transform => _pose.ToMatrix();
 
-    public override Pose Pose => _pose;
 
-    public override void Shutdown()
-    {
-        cube = null;
-        IsActive = false;
-    }
 
-    public override void Draw()
+    public override void OnFrameUpdate()
     {
         if (!IsActive) return;
-        UI.Handle("Cube", ref _pose, cube.Bounds);
-        cube.Draw(Pose.ToMatrix());
+        UI.Handle("Cube", ref _pose, _cube.Bounds);
+        _cube.Draw(_pose.ToMatrix());
     }
 }

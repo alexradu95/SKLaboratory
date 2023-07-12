@@ -17,20 +17,11 @@ public class FloorWidget : BaseWidget
         floorMaterial.Transparency = Transparency.Blend;
     }
 
-    public override Matrix Transform => _transform;
 
-    public override Pose Pose => _transform.Pose;
-
-    public override void Shutdown()
-    {
-        floorMaterial = null;
-        IsActive = false;
-    }
-
-    public override void Draw()
+    public override void OnFrameUpdate()
     {
         if (!IsActive) return;
         if (SK.System.displayType == Display.Opaque)
-            Mesh.Cube.Draw(floorMaterial, Transform);
+            Mesh.Cube.Draw(floorMaterial, _transform);
     }
 }

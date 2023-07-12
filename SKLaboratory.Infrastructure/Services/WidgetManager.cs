@@ -47,7 +47,6 @@ public class WidgetManager : IWidgetManager
 
     private bool DeactivateWidget(Type widgetType)
     {
-        _activeWidgets[widgetType].Shutdown();
         _activeWidgets.Remove(widgetType);
         return true;
     }
