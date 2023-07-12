@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory_Android", "SKL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory.Infrastructure", "SKLaboratory.Infrastructure\SKLaboratory.Infrastructure.csproj", "{066F9E4D-56C0-43AD-90E9-D300A6B0E15C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLaboratory.Infrastructure.Tests", "SKLaboratory.Infrastructure.Tests\SKLaboratory.Infrastructure.Tests.csproj", "{64071DDB-81AB-494E-B99C-D44E9C526444}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,10 +29,6 @@ Global
 		{066F9E4D-56C0-43AD-90E9-D300A6B0E15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{066F9E4D-56C0-43AD-90E9-D300A6B0E15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{066F9E4D-56C0-43AD-90E9-D300A6B0E15C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64071DDB-81AB-494E-B99C-D44E9C526444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64071DDB-81AB-494E-B99C-D44E9C526444}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64071DDB-81AB-494E-B99C-D44E9C526444}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64071DDB-81AB-494E-B99C-D44E9C526444}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

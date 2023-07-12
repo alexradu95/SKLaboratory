@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
+namespace SKLaboratory.Infrastructure.Exceptions;
+
 [Serializable]
 internal class WidgetCreationFailedException : Exception
 {

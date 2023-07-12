@@ -1,11 +1,9 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿namespace SKLaboratory.Infrastructure.Exceptions;
 
-namespace SKLaboratory.Factories
+[Serializable]
+public class UnknownWidgetTypeException : Exception
 {
-    [Serializable]
-    public class UnknownWidgetTypeException : Exception
+    public UnknownWidgetTypeException(string message) : base(message)
     {
-        public UnknownWidgetTypeException(string message) : base(message) { }
     }
 }

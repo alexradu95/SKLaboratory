@@ -1,82 +1,75 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SKLaboratory.Infrastructure;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Infrastructure.Services;
 using SKLaboratory.Infrastructure.Steppers;
-using SKLaboratory.Widgets;
 using StereoKit;
-using StereoKit.Framework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
-namespace SKLaboratory
+namespace SKLaboratory;
+
+internal class Program
 {
-    internal class Program
+    private static IServiceProvider _serviceProvider;
+
+    private static void Main(string[] args)
     {
-        private static IServiceProvider _serviceProvider;
+        BuildServiceProvider();
 
-        static void Main(string[] args)
+        AddPreInitSteppers();
+
+        InitializeStereoKit();
+
+        RegisterWidgetsToFactory();
+
+        RunMainLoop();
+    }
+
+    private static void RegisterWidgetsToFactory()
+    {
+        IWidgetFactory widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
+        // Register Widgets
+        widgetFactory.RegisterWidget<CubeWidget>();
+        widgetFactory.RegisterWidget<FloorWidget>();
+        widgetFactory.RegisterWidget<PassthroughWidget>();
+    }
+
+    private static void AddPreInitSteppers()
+    {
+        SK.AddStepper<PassthroughStepper>();
+    }
+
+    private static void BuildServiceProvider()
+    {
+        ServiceCollection serviceCollection = new();
+
+        serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
+        serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
+        serviceCollection.AddSingleton<UIManager>();
+
+        _serviceProvider = serviceCollection.BuildServiceProvider();
+    }
+
+    private static void InitializeStereoKit()
+    {
+        SKSettings settings = new()
         {
-            BuildServiceProvider();
+            appName = "SKLaboratory",
+            assetsFolder = "Assets"
+        };
 
-            AddPreInitSteppers();
+        SK.Initialize(settings);
+    }
 
-            InitializeStereoKit();
+    private static void RunMainLoop()
+    {
+        IWidgetManager widgetProvider = _serviceProvider.GetRequiredService<IWidgetManager>();
+        UIManager
+            uiManager = _serviceProvider
+                .GetRequiredService<UIManager>(); //we get it in order to trigger the constructor and add it
 
-            RegisterWidgetsToFactory();
-
-            RunMainLoop();
-        }
-
-        private static void RegisterWidgetsToFactory()
+        SK.Run(() =>
         {
-            var widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
-            // Register Widgets
-            widgetFactory.RegisterWidget<CubeWidget>();
-            widgetFactory.RegisterWidget<FloorWidget>();
-            widgetFactory.RegisterWidget<PassthroughWidget>();
-        }
-
-        private static void AddPreInitSteppers()
-        {
-            SK.AddStepper<PassthroughStepper>();
-        }
-
-        private static void BuildServiceProvider()
-        {
-            var serviceCollection = new ServiceCollection();
-
-            serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
-            serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
-            serviceCollection.AddSingleton<UIManager>();
-
-            _serviceProvider = serviceCollection.BuildServiceProvider();
-        }
-
-        private static void InitializeStereoKit()
-        {
-            var settings = new SKSettings
-            {
-                appName = "SKLaboratory",
-                assetsFolder = "Assets",
-            };
-
-            SK.Initialize(settings);
-        }
-
-        private static void RunMainLoop()
-        {
-            var widgetProvider = _serviceProvider.GetRequiredService<IWidgetManager>();
-            var uiManager = _serviceProvider.GetRequiredService<UIManager>(); //we get it in order to trigger the constructor and add it
-
-            SK.Run(() =>
-            {
-                foreach (var widget in widgetProvider.ActiveWidgetsList.Values)
-                {
-                    widget.Draw();
-                }
-            });
-        }
+            foreach (IWidget widget in widgetProvider.ActiveWidgetsList.Values) widget.Draw();
+        });
     }
 }

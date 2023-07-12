@@ -1,30 +1,23 @@
 ﻿using SKLaboratory.Infrastructure.Base;
-using SKLaboratory.Infrastructure.Interfaces;
 using SKLaboratory.Infrastructure.Steppers;
 using StereoKit;
-using StereoKit.Framework;
-using System;
 
-namespace SKLaboratory.Widgets;
+namespace SKLaboratory;
 
-
-class PassthroughWidget : BaseWidget
+internal class PassthroughWidget : BaseWidget
 {
-
-    PassthroughStepper passthrough;
-
-    public override Matrix Transform => _pose.ToMatrix();
-
-    public override Pose Pose => _pose;
-
-
+    private readonly PassthroughStepper passthrough;
     private Pose _pose;
 
-    public PassthroughWidget() : base()
+    public PassthroughWidget()
     {
         _pose = new Pose(0, 0, -0.5f);
         passthrough = SK.GetOrCreateStepper<PassthroughStepper>();
     }
+
+    public override Matrix Transform => _pose.ToMatrix();
+
+    public override Pose Pose => _pose;
 
     public override void Shutdown()
     {
@@ -33,10 +26,7 @@ class PassthroughWidget : BaseWidget
 
     public override void Draw()
     {
-        if (!IsActive)
-        {
-            return;
-        }
+        if (!IsActive) return;
         UI.WindowBegin("Passthrough Settings", ref _pose);
         bool toggle = passthrough.Enabled;
         UI.Label(passthrough.Available

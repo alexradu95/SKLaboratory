@@ -1,11 +1,8 @@
-﻿
+﻿namespace SKLaboratory.Infrastructure.Interfaces;
 
-namespace SKLaboratory.Infrastructure.Interfaces
+public interface IWidgetManager
 {
-    public interface IWidgetManager
-    {
-        public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList { get; }
+    public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList { get; }
 
-        public void ToggleWidget(Type widgetType);
-    }
+    public void ToggleWidget(Type widgetType);
 }
