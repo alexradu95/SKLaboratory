@@ -10,25 +10,33 @@ public class WidgetFactory : IWidgetFactory
 
     public List<Type> WidgetTypes => _widgetCreators.Keys.ToList();
 
+    private readonly MessageBus _messageBus;
+
+    public WidgetFactory(MessageBus messageBus)
+    {
+        _messageBus = messageBus;
+    }
+
     public IWidget CreateWidget(Type widgetType)
     {
-        if (_widgetCreators.TryGetValue(widgetType, out var createWidgetFunc))
+        if (!typeof(IWidget).IsAssignableFrom(widgetType))
         {
-            try
-            {
-                return createWidgetFunc();
-            }
-            catch (Exception ex)
-            {
-                // Log the error and rethrow the exception
-                Log.Err($"Failed to create widget of type: {widgetType}. Exception: {ex}");
-                throw;
-            }
+            throw new ArgumentException($"Type must implement {nameof(IWidget)}.", nameof(widgetType));
         }
 
-        // Log the error and throw an exception
-        Log.Err($"Unknown widget type: {widgetType}");
-        throw new UnknownWidgetTypeException($"Unknown widget type: {widgetType}");
+        var constructorWithMessageBus = widgetType.GetConstructor(new[] { typeof(MessageBus) });
+        if (constructorWithMessageBus != null)
+        {
+            return (IWidget)constructorWithMessageBus.Invoke(new object[] { _messageBus });
+        }
+
+        var defaultConstructor = widgetType.GetConstructor(Type.EmptyTypes);
+        if (defaultConstructor != null)
+        {
+            return (IWidget)defaultConstructor.Invoke(null);
+        }
+
+        throw new InvalidOperationException($"Type must have a default constructor.");
     }
 
 
