@@ -1,5 +1,6 @@
 ﻿using SKLaboratory.Infrastructure.Exceptions;
 using SKLaboratory.Infrastructure.Interfaces;
+using StereoKit;
 
 namespace SKLaboratory.Infrastructure.Services;
 
@@ -12,17 +13,24 @@ public class WidgetFactory : IWidgetFactory
     public IWidget CreateWidget(Type widgetType)
     {
         if (_widgetCreators.TryGetValue(widgetType, out var createWidgetFunc))
+        {
             try
             {
                 return createWidgetFunc();
             }
             catch (Exception ex)
             {
-                throw new WidgetCreationFailedException($"Failed to create widget of type: {widgetType}", ex);
+                // Log the error and rethrow the exception
+                Log.Err($"Failed to create widget of type: {widgetType}. Exception: {ex}");
+                throw;
             }
+        }
 
+        // Log the error and throw an exception
+        Log.Err($"Unknown widget type: {widgetType}");
         throw new UnknownWidgetTypeException($"Unknown widget type: {widgetType}");
     }
+
 
     public void RegisterWidget<T>() where T : IWidget
     {

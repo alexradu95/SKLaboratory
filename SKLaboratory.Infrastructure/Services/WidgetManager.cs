@@ -45,9 +45,8 @@ public class WidgetManager : IWidgetManager
         _activeWidgets.Add(widgetType, _widgetFactory.CreateWidget(widgetType));
     }
 
-    private bool DeactivateWidget(Type widgetType)
+    private void DeactivateWidget(Type widgetType)
     {
         _activeWidgets.Remove(widgetType);
-        return true;
     }
 }
