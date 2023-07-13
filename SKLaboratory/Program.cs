@@ -61,6 +61,8 @@ internal class Program
         widgetFactory.RegisterWidget<CubeWidget>();
         widgetFactory.RegisterWidget<FloorWidget>();
         widgetFactory.RegisterWidget<PassthroughWidget>();
+        widgetFactory.RegisterWidget<ButtonWidget>();
+        widgetFactory.RegisterWidget<TextWidget>();
     }
 
 
