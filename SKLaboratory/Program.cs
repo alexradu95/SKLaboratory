@@ -33,6 +33,7 @@ internal class Program
         serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
         serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
         serviceCollection.AddSingleton<UIManager>();
+        serviceCollection.AddSingleton<MessageBus>();
 
         _serviceProvider = serviceCollection.BuildServiceProvider();
     }
