@@ -14,8 +14,6 @@ public class TextWidget : BaseWidget
         _messageBus.Subscribe<ButtonPressedMessage>(message => _text = message.NewText);
     }
 
-    public Guid Id => Guid.NewGuid();
-
     public override void OnFrameUpdate()
     {
         UI.Label(_text);
