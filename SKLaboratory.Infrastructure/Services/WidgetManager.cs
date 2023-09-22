@@ -1,9 +1,6 @@
 ﻿using SKLaboratory.Infrastructure.Exceptions;
 using SKLaboratory.Infrastructure.Interfaces;
 using StereoKit;
-using System;
-using System.Collections.Generic;
-
 namespace SKLaboratory.Infrastructure.Services;
 
 public class WidgetManager : IWidgetManager
@@ -39,6 +36,5 @@ public class WidgetManager : IWidgetManager
     }
 
     private void ActivateWidget(Type widgetType) => _activeWidgets.Add(widgetType, _widgetFactory.CreateWidget(widgetType));
-
     private void DeactivateWidget(Type widgetType) => _activeWidgets.Remove(widgetType);
 }

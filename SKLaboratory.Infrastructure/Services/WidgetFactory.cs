@@ -26,9 +26,8 @@ public class WidgetFactory : IWidgetFactory
     public void RegisterWidget<T>() where T : IWidget
     {
         Type widgetType = typeof(T);
-        if (!typeof(IWidget).IsAssignableFrom(widgetType))
-            throw new ArgumentException($"Type must be a subclass of IWidget, but was {widgetType}",
-                nameof(widgetType));
+        if (widgetType is not IWidget)
+            throw new ArgumentException($"Type must be a subclass of IWidget, but was {widgetType}", nameof(widgetType));
 
         Func<IWidget> createWidgetFunc = () =>
         {
