@@ -5,17 +5,9 @@
 /// </summary>
 public interface IWidget
 {
-    /// <summary>
-    ///     Gets the unique identifier for the widget.
-    /// </summary>
-    /// Pose
     public Guid Id { get; }
 
-    // Could be extended to WidgetState if it is needed in the future
     public bool IsActive { get; protected set; }
 
-    /// <summary>
-    /// Runs this method, on every frame of SK
-    /// </summary>
     void OnFrameUpdate();
 }

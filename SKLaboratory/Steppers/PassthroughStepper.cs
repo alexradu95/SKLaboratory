@@ -4,6 +4,7 @@
 // To work on Quest+Link, you may need to enable beta features in the Oculus
 // app's settings.
 
+using System;
 using System.Runtime.InteropServices;
 using StereoKit;
 using StereoKit.Framework;

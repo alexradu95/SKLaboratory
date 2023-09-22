@@ -12,13 +12,5 @@ namespace SKLaboratory.Infrastructure.Exceptions
         public WidgetNotFoundException(string? message) : base(message)
         {
         }
-
-        public WidgetNotFoundException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected WidgetNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }
