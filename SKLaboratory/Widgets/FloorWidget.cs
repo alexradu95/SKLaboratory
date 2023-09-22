@@ -18,10 +18,9 @@ public class FloorWidget : BaseWidget
     }
 
 
-    public override void OnFrameUpdate()
-    {
-        if (!IsActive) return;
-        if (SK.System.displayType == Display.Opaque)
-            Mesh.Cube.Draw(floorMaterial, _transform);
-    }
+public override void OnFrameUpdate()
+{
+    if (IsActive && SK.System.displayType == Display.Opaque)
+        Mesh.Cube.Draw(floorMaterial, _transform);
+}
 }

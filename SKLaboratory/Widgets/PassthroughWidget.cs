@@ -16,18 +16,18 @@ internal class PassthroughWidget : BaseWidget
     }
 
 
-    public override void OnFrameUpdate()
+public override void OnFrameUpdate()
+{
+    if (IsActive)
     {
-        if (!IsActive) return;
         UI.WindowBegin("Passthrough Settings", ref _pose);
         bool toggle = passthrough.Enabled;
-        UI.Label(passthrough.Available
-            ? "Passthrough EXT available!"
-            : "No passthrough EXT available :(");
+        UI.Label(passthrough.Available ? "Passthrough EXT available!" : "No passthrough EXT available :(");
         UI.PushEnabled(passthrough.Available);
         if (UI.Toggle("Passthrough", ref toggle))
             passthrough.Enabled = toggle;
         UI.PopEnabled();
         UI.WindowEnd();
     }
+}
 }
