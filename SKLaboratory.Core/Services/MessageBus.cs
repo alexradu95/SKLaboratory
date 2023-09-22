@@ -12,7 +12,7 @@
             var messageType = typeof(TMessage);
             if (_subscribers.TryGetValue(messageType, out var subscribers))
             {
-                foreach (Action<TMessage> subscriber in subscribers)
+                foreach (Action<TMessage> subscriber in subscribers.Cast<Action<TMessage>>())
                 {
                     subscriber(message);
                 }
