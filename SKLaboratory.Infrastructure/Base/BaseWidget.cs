@@ -1,16 +1,9 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
-using StereoKit;
-
 namespace SKLaboratory.Infrastructure.Base;
 
 public abstract class BaseWidget : IWidget
 {
-    protected BaseWidget()
-    {
-        Id = Guid.NewGuid();
-        IsActive = true;
-    }
-
+    protected BaseWidget() => (Id, IsActive) = (Guid.NewGuid(), true);
 
     public Guid Id { get; }
     public bool IsActive { get; set; }
