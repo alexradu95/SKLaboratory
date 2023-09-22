@@ -12,7 +12,7 @@ public class WidgetManager : IWidgetManager
 
     public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => _activeWidgets;
 
-    public void ToggleWidget(Type widgetType)
+    public void ToggleWidgetActivation(Type widgetType)
     {
         try
         {

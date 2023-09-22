@@ -9,7 +9,7 @@ public class UIManager
     public static void InitializeHandMenuStepper(IWidgetManager widgetManager, IWidgetFactory widgetFactory)
     {
         var widgetMenuItems = widgetFactory.WidgetTypes.Select(widgetType =>
-            new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidget(widgetType))).ToArray();
+            new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidgetActivation(widgetType))).ToArray();
 
         SK.AddStepper(new HandMenuRadial(new HandRadialLayer("Root", widgetMenuItems)));
     }

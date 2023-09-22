@@ -1,16 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿namespace SKLaboratory.Infrastructure.Exceptions;
 
-namespace SKLaboratory.Infrastructure.Exceptions
+[Serializable]
+public class WidgetNotFoundException : Exception
 {
-    [Serializable]
-    public class WidgetNotFoundException : Exception
+    public WidgetNotFoundException()
     {
-        public WidgetNotFoundException()
-        {
-        }
+    }
 
-        public WidgetNotFoundException(string? message) : base(message)
-        {
-        }
+    public WidgetNotFoundException(string? message) : base(message)
+    {
     }
 }
