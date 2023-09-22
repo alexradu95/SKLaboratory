@@ -7,12 +7,10 @@ public class WidgetFactoryTests
     [Fact]
     public void TestCreateWidget()
     {
-        // TODO: Write test method for CreateWidget
-    }
+        // TODO: Write test method for CreateWidget, including error cases
 
     [Fact]
     public void TestRegisterWidget()
     {
-        // TODO: Write test method for RegisterWidget
-    }
+        // TODO: Write test method for RegisterWidget, including error cases
 }

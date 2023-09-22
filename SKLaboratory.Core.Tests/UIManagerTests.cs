@@ -6,6 +6,5 @@ public class UIManagerTests
     [Fact]
     public void TestInitializeHandMenuStepper()
     {
-        // TODO: Write test method for InitializeHandMenuStepper
-    }
+        // TODO: Write test method for InitializeHandMenuStepper, including error cases
 }

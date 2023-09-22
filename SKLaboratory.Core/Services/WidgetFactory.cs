@@ -16,12 +16,18 @@ public class WidgetFactory : IWidgetFactory
     {
         if (_widgetCreators.TryGetValue(widgetType, out var createWidgetFunc))
         {
-            return createWidgetFunc();
+            try
+            {
+                return createWidgetFunc();
+            }
+            catch (Exception ex)
+            {
+                throw new WidgetCreationFailedException($"Failed to create widget of type {widgetType}.", ex);
+            }
         }
 
-        throw new WidgetNotFoundException($"No widget registered for type {widgetType}.");
+        throw new UnknownWidgetTypeException($"No widget registered for type {widgetType}.");
     }
-
     public void RegisterWidget<T>() where T : IWidget
     {
         Type widgetType = typeof(T);

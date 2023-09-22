@@ -6,18 +6,18 @@ public class MessageBusTests
     [Fact]
     public void TestPublish()
     {
-        // TODO: Write test method for Publish
+        // TODO: Write test method for Publish, including error cases
     }
 
     [Fact]
     public void TestSubscribe()
     {
-        // TODO: Write test method for Subscribe
+        // TODO: Write test method for Subscribe, including error cases
     }
 
     [Fact]
     public void TestUnsubscribe()
     {
-        // TODO: Write test method for Unsubscribe
+        // TODO: Write test method for Unsubscribe, including error cases
     }
 }

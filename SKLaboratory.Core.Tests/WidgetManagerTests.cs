@@ -7,6 +7,5 @@ public class WidgetManagerTests
     [Fact]
     public void TestToggleWidgetActivation()
     {
-        // TODO: Write test method for ToggleWidgetActivation
-    }
+        // TODO: Write test method for ToggleWidgetActivation, including error cases
 }
