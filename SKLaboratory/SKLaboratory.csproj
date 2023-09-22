@@ -26,6 +26,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SKLaboratory.Infrastructure\SKLaboratory.Infrastructure.csproj" />
+	  <ProjectReference Include="..\SKLaboratory.Core\SKLaboratory.Core.csproj" />
 	</ItemGroup>
 </Project>

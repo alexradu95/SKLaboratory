@@ -3,7 +3,7 @@
 namespace SKLaboratory.Infrastructure.Exceptions
 {
     [Serializable]
-    internal class WidgetNotFoundException : Exception
+    public class WidgetNotFoundException : Exception
     {
         public WidgetNotFoundException()
         {

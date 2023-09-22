@@ -3,7 +3,7 @@
 namespace SKLaboratory.Infrastructure.Exceptions;
 
 [Serializable]
-internal class WidgetCreationFailedException : Exception
+public class WidgetCreationFailedException : Exception
 {
     public WidgetCreationFailedException()
     {
