@@ -1,16 +1,14 @@
-﻿using SKLaboratory.Infrastructure.Interfaces;
-using StereoKit;
+﻿using StereoKit;
 using StereoKit.Framework;
 
 namespace SKLaboratory.Infrastructure.Services;
 
 public class StartHandMenu
 {
-    public static void InitializeHandMenuStepper(IWidgetManager widgetManager, IWidgetFactory widgetFactory)
+    public static void InitializeHandMenuStepper()
     {
-        var widgetMenuItems = widgetFactory.WidgetTypes.Select(widgetType =>
-            new HandMenuItem(widgetType.Name, null, () => widgetManager.ToggleWidgetActivation(widgetType))).ToArray();
 
-        SK.AddStepper(new HandMenuRadial(new HandRadialLayer("Root", widgetMenuItems)));
+        var widgetManagerUI = SK.GetOrCreateStepper<WidgetManagerUI>();
+        SK.AddStepper(new HandMenuRadial(new HandRadialLayer("Root", new HandMenuItem("Toggle WidgetMenu", null, widgetManagerUI.Toggle))));
     }
 }

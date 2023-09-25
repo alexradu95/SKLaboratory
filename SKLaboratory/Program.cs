@@ -49,8 +49,10 @@ void RegisterWidgetsToFactory()
 
 void AddPostInitSteppers()
 {
-    StartHandMenu.InitializeHandMenuStepper(_serviceProvider.GetService<IWidgetManager>(),
-        _serviceProvider.GetService<IWidgetFactory>());
+    WidgetManagerUI.InitializeWidgetManagerUIStepper(_serviceProvider.GetService<IWidgetManager>(),
+    _serviceProvider.GetService<IWidgetFactory>());
+    StartHandMenu.InitializeHandMenuStepper();
+
 }
 
 void RunMainLoop()
