@@ -19,7 +19,7 @@ IServiceProvider BuildServiceProvider()
     var serviceCollection = new ServiceCollection();
     serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
     serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
-    serviceCollection.AddSingleton<UIManager>();
+    serviceCollection.AddSingleton<StartHandMenu>();
     serviceCollection.AddSingleton<MessageBus>();
     return serviceCollection.BuildServiceProvider();
 }
@@ -49,7 +49,7 @@ void RegisterWidgetsToFactory()
 
 void AddPostInitSteppers()
 {
-    UIManager.InitializeHandMenuStepper(_serviceProvider.GetService<IWidgetManager>(),
+    StartHandMenu.InitializeHandMenuStepper(_serviceProvider.GetService<IWidgetManager>(),
         _serviceProvider.GetService<IWidgetFactory>());
 }
 

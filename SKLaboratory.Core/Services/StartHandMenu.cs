@@ -4,7 +4,7 @@ using StereoKit.Framework;
 
 namespace SKLaboratory.Infrastructure.Services;
 
-public class UIManager
+public class StartHandMenu
 {
     public static void InitializeHandMenuStepper(IWidgetManager widgetManager, IWidgetFactory widgetFactory)
     {
