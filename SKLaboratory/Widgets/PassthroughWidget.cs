@@ -1,4 +1,4 @@
-﻿using SKLaboratory.Infrastructure.Base;
+﻿using SKLaboratory.Infrastructure;
 using SKLaboratory.Infrastructure.Steppers;
 using StereoKit;
 
@@ -17,17 +17,17 @@ internal class PassthroughWidget : BaseWidget
 
 
 public override void OnFrameUpdate()
-{
-    if (IsActive)
     {
-        UI.WindowBegin("Passthrough Settings", ref _pose);
-        bool toggle = passthrough.Enabled;
-        UI.Label(passthrough.Available ? "Passthrough EXT available!" : "No passthrough EXT available :(");
-        UI.PushEnabled(passthrough.Available);
-        if (UI.Toggle("Passthrough", ref toggle))
-            passthrough.Enabled = toggle;
-        UI.PopEnabled();
-        UI.WindowEnd();
+        if (IsActive)
+        {
+            UI.WindowBegin("Passthrough Settings", ref _pose);
+            bool toggle = passthrough.Enabled;
+            UI.Label(passthrough.Available ? "Passthrough EXT available!" : "No passthrough EXT available :(");
+            UI.PushEnabled(passthrough.Available);
+            if (UI.Toggle("Passthrough", ref toggle))
+                passthrough.Enabled = toggle;
+            UI.PopEnabled();
+            UI.WindowEnd();
+        }
     }
-}
 }

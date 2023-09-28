@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory_Android", "SKL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory.Infrastructure", "SKLaboratory.Infrastructure\SKLaboratory.Infrastructure.csproj", "{066F9E4D-56C0-43AD-90E9-D300A6B0E15C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLaboratory.Core", "SKLaboratory.Core\SKLaboratory.Core.csproj", "{B72CBC12-D3C7-4C1A-955F-CEDD0BADF52B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory.Core", "SKLaboratory.Core\SKLaboratory.Core.csproj", "{B72CBC12-D3C7-4C1A-955F-CEDD0BADF52B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLaboratory.Infrastructure.Exceptions", "SKLaboratory.Infrastructure.Exceptions\SKLaboratory.Infrastructure.Exceptions.csproj", "{08AA40CC-D5CC-4E13-A0AB-A29FC3A67D67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory.Infrastructure.Exceptions", "SKLaboratory.Infrastructure.Exceptions\SKLaboratory.Infrastructure.Exceptions.csproj", "{08AA40CC-D5CC-4E13-A0AB-A29FC3A67D67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLaboratory.Infrastructure.Interfaces", "SKLaboratory.Infrastructure.Interfaces\SKLaboratory.Infrastructure.Interfaces.csproj", "{4552114B-7AAA-47A4-A259-90F538FE46B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory.Infrastructure.Interfaces", "SKLaboratory.Infrastructure.Interfaces\SKLaboratory.Infrastructure.Interfaces.csproj", "{4552114B-7AAA-47A4-A259-90F538FE46B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKLaboratory.Core.Tests", "SKLaboratory.Core.Tests\SKLaboratory.Core.Tests.csproj", "{15D54455-507B-4D95-B488-0870F645F672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKLaboratory.Core.MessageBus", "SKLaboratory.Core.MessageBus\SKLaboratory.Core.MessageBus.csproj", "{3BD71F1B-C190-46D2-AA3E-D81CB829ACD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{15D54455-507B-4D95-B488-0870F645F672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15D54455-507B-4D95-B488-0870F645F672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15D54455-507B-4D95-B488-0870F645F672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BD71F1B-C190-46D2-AA3E-D81CB829ACD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BD71F1B-C190-46D2-AA3E-D81CB829ACD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BD71F1B-C190-46D2-AA3E-D81CB829ACD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BD71F1B-C190-46D2-AA3E-D81CB829ACD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

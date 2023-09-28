@@ -1,5 +1,5 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
-namespace SKLaboratory.Infrastructure.Base;
+namespace SKLaboratory.Infrastructure;
 
 public abstract class BaseWidget : IWidget
 {

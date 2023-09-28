@@ -1,4 +1,4 @@
-﻿using SKLaboratory.Infrastructure.Base;
+﻿using SKLaboratory.Infrastructure;
 using StereoKit;
 
 namespace SKLaboratory;
@@ -14,12 +14,12 @@ public class CubeWidget : BaseWidget
         _cube = Model.FromMesh(Mesh.GenerateRoundedCube(Vec3.One * 0.1f, 0.02f), Material.UI);
     }
 
-public override void OnFrameUpdate()
-{
-    if (IsActive)
+    public override void OnFrameUpdate()
     {
-        UI.Handle("Cube", ref _pose, _cube.Bounds);
-        _cube.Draw(_pose.ToMatrix());
+        if (IsActive)
+        {
+            UI.Handle("Cube", ref _pose, _cube.Bounds);
+            _cube.Draw(_pose.ToMatrix());
+        }
     }
-}
 }

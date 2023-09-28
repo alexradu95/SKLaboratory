@@ -1,4 +1,4 @@
-﻿using SKLaboratory.Infrastructure.Base;
+﻿using SKLaboratory.Infrastructure;
 using StereoKit;
 
 namespace SKLaboratory;
