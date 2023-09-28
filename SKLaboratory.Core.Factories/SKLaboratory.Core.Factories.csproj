@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SKLaboratory.Core.MessageBus\SKLaboratory.Core.MessageBus.csproj" />
+    <ProjectReference Include="..\SKLaboratory.Infrastructure.Exceptions\SKLaboratory.Infrastructure.Exceptions.csproj" />
+    <ProjectReference Include="..\SKLaboratory.Infrastructure.Interfaces\SKLaboratory.Infrastructure.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

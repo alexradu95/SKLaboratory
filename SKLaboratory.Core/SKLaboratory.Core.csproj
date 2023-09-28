@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SKLaboratory.Core.Factories\SKLaboratory.Core.Factories.csproj" />
     <ProjectReference Include="..\SKLaboratory.Core.MessageBus\SKLaboratory.Core.MessageBus.csproj" />
     <ProjectReference Include="..\SKLaboratory.Infrastructure\SKLaboratory.Infrastructure.csproj" />
   </ItemGroup>
