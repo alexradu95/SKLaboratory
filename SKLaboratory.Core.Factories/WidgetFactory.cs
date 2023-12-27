@@ -1,66 +1,61 @@
 ﻿using SKLaboratory.Infrastructure.Exceptions;
 using SKLaboratory.Infrastructure.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace SKLaboratory.Infrastructure.Services;
-
-public class WidgetFactory : IWidgetFactory
+namespace SKLaboratory.Infrastructure.Services
 {
-    private readonly Dictionary<Type, Func<IWidget>> _widgetCreators = new();
-    public List<Type> WidgetTypes => _widgetCreators.Keys.ToList();
-
-    private readonly MessageBus _messageBus;
-
-    // Constructor
-    public WidgetFactory(MessageBus messageBus) => _messageBus = messageBus;
-
-    // Create a widget instance of the specified type
-    public IWidget CreateWidget(Type widgetType)
+    public class WidgetFactory : IWidgetFactory
     {
-        if (_widgetCreators.TryGetValue(widgetType, out var createWidgetFunc))
+        private readonly Dictionary<Type, Func<IWidget>> _widgetCreators = new();
+        private readonly MessageBus _messageBus;
+
+        public WidgetFactory(MessageBus messageBus) => _messageBus = messageBus;
+
+        public IReadOnlyList<Type> RegisteredWidgetTypes => _widgetCreators.Keys.ToList();
+
+        public IWidget CreateWidget(Type widgetType)
+        {
+            return _widgetCreators.TryGetValue(widgetType, out var createWidget)
+                ? AttemptToCreateWidget(createWidget, widgetType)
+                : throw new UnknownWidgetTypeException($"Widget type not registered: {widgetType}");
+        }
+
+        public void RegisterWidget<T>() where T : IWidget
+        {
+            Type widgetType = typeof(T);
+            ValidateWidgetType(widgetType);
+            _widgetCreators[widgetType] = () => InstantiateWidget<T>();
+        }
+
+        private void ValidateWidgetType(Type widgetType)
+        {
+            if (!typeof(IWidget).IsAssignableFrom(widgetType))
+                throw new ArgumentException("Type must implement IWidget", nameof(widgetType));
+
+            if (_widgetCreators.ContainsKey(widgetType))
+                throw new ArgumentException("Widget type already registered", nameof(widgetType));
+        }
+
+        private IWidget AttemptToCreateWidget(Func<IWidget> createWidget, Type widgetType)
         {
             try
             {
-                return createWidgetFunc();
+                return createWidget();
             }
             catch (Exception ex)
             {
-                throw new WidgetCreationFailedException($"Failed to create widget of type {widgetType}.", ex);
+                throw new WidgetCreationFailedException($"Error creating widget: {widgetType}", ex);
             }
         }
 
-        throw new UnknownWidgetTypeException($"No widget registered for type {widgetType}.");
-    }
-
-    // Register a widget type with the factory
-    public void RegisterWidget<T>() where T : IWidget
-    {
-        Type widgetType = typeof(T);
-        if (!typeof(IWidget).IsAssignableFrom(widgetType))
-            throw new ArgumentException($"Type must be a subclass of IWidget, but was {widgetType}", nameof(widgetType));
-
-        Func<IWidget> createWidgetFunc = () => CreateWidgetInstance(widgetType);
-
-        if (_widgetCreators.ContainsKey(widgetType))
-            throw new ArgumentException($"A widget of type {widgetType} is already registered.", nameof(widgetType));
-
-        _widgetCreators[widgetType] = createWidgetFunc;
-    }
-
-    // Create a widget instance using the appropriate constructor
-    private IWidget CreateWidgetInstance(Type widgetType)
-    {
-        var constructorWithMessageBus = widgetType.GetConstructor(new[] { typeof(MessageBus) });
-        if (constructorWithMessageBus != null)
+        private IWidget InstantiateWidget<T>() where T : IWidget
         {
-            return (IWidget)constructorWithMessageBus.Invoke(new object[] { _messageBus });
+            var constructorWithMessageBus = typeof(T).GetConstructor(new[] { typeof(MessageBus) });
+            return constructorWithMessageBus != null
+                ? (IWidget)constructorWithMessageBus.Invoke(new object[] { _messageBus })
+                : Activator.CreateInstance<T>();
         }
-
-        var defaultConstructor = widgetType.GetConstructor(Type.EmptyTypes);
-        if (defaultConstructor != null)
-        {
-            return (IWidget)defaultConstructor.Invoke(null);
-        }
-
-        throw new InvalidOperationException($"Type must have a default constructor.");
     }
 }

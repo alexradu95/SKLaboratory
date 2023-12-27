@@ -21,7 +21,7 @@ namespace SKLaboratory.Infrastructure.Services
         {
             _widgetManager = widgetManager;
             _widgetFactory = widgetFactory;
-            _demoNames = _widgetFactory.WidgetTypes.ConvertAll(type => type.Name);
+            _demoNames = _widgetFactory.RegisteredWidgetTypes.Select(type => type.Name).ToList();
         }
 
         public bool Initialize()
@@ -42,7 +42,7 @@ namespace SKLaboratory.Infrastructure.Services
             {
                 if (UI.Button(_demoNames[i]))
                 {
-                    _widgetManager.ToggleWidgetActivation(_widgetFactory.WidgetTypes[i]);
+                    _widgetManager.ToggleWidgetActivation(_widgetFactory.RegisteredWidgetTypes[i]);
                 }
                 UI.SameLine();
             }

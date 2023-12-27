@@ -7,4 +7,5 @@ public class UIManagerTests
     public void TestInitializeHandMenuStepper()
     {
         // TODO: Write test method for InitializeHandMenuStepper, including error cases
+    }
 }

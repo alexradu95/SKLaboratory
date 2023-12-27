@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/SKLaboratory/bin/Debug/net7.0/SKLaboratory.dll",
+            "program": "${workspaceFolder}/SKLaboratory/bin/Debug/net8.0/SKLaboratory.dll",
             "args": [],
             "cwd": "${workspaceFolder}/SKLaboratory",
             "console": "internalConsole",
