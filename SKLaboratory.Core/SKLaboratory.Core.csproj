@@ -7,17 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tests\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="StereoKit" Version="0.3.7-preview.1583" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SKLaboratory.Core.Factories\SKLaboratory.Core.Factories.csproj" />
-    <ProjectReference Include="..\SKLaboratory.Core.MessageBus\SKLaboratory.Core.MessageBus.csproj" />
     <ProjectReference Include="..\SKLaboratory.Infrastructure\SKLaboratory.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Tests\" />
   </ItemGroup>
 
 </Project>

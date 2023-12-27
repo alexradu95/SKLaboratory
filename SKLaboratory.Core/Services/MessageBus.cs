@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SKLaboratory.Infrastructure.Services
+namespace SKLaboratory.Core.Services
 {
     public class MessageBus
     {
