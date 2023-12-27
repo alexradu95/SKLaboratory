@@ -3,38 +3,39 @@ using SKLaboratory.Infrastructure.Interfaces;
 using StereoKit;
 namespace SKLaboratory.Infrastructure.Services;
 
-public class WidgetManager : IWidgetManager
+public class WidgetManager(IWidgetFactory widgetFactory) : IWidgetManager
 {
-    private readonly Dictionary<Type, IWidget> _activeWidgets = new();
-    private readonly IWidgetFactory _widgetFactory;
-
-    public WidgetManager(IWidgetFactory widgetFactory) => _widgetFactory = widgetFactory;
+    private readonly Dictionary<Type, IWidget> _activeWidgets = [];
 
     public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => _activeWidgets;
 
     public void ToggleWidgetActivation(Type widgetType)
     {
+        if (_activeWidgets.ContainsKey(widgetType))
+            DeactivateWidget(widgetType);
+        else
+            ActivateWidget(widgetType);
+    }
+
+    private void ActivateWidget(Type widgetType)
+    {
         try
         {
-            if (_activeWidgets.ContainsKey(widgetType))
-                DeactivateWidget(widgetType);
-            else
-                ActivateWidget(widgetType);
-        }
-        catch (WidgetCreationFailedException ex)
-        {
-            Log.Err($"Failed to create or deactivate widget of type: {widgetType}. {ex.Message}");
-        }
-        catch (UnknownWidgetTypeException ex)
-        {
-            Log.Err($"Unknown widget type: {widgetType}. {ex.Message}");
+            _activeWidgets[widgetType] = widgetFactory.CreateWidget(widgetType);
         }
         catch (Exception ex)
         {
-            Log.Err($"An unexpected error occurred: {ex.Message}");
+            HandleWidgetException(ex, widgetType);
         }
     }
 
-    private void ActivateWidget(Type widgetType) => _activeWidgets.Add(widgetType, _widgetFactory.CreateWidget(widgetType));
     private void DeactivateWidget(Type widgetType) => _activeWidgets.Remove(widgetType);
+
+    private void HandleWidgetException(Exception ex, Type widgetType)
+    {
+        if (ex is WidgetCreationFailedException || ex is UnknownWidgetTypeException)
+            Log.Err($"Widget operation failed for type {widgetType}: {ex.Message}");
+        else
+            Log.Err($"An unexpected error occurred: {ex.Message}");
+    }
 }
