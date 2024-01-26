@@ -1,6 +1,5 @@
 ﻿using SKLaboratory.Core.Services;
 using SKLaboratory.Infrastructure;
-using SKLaboratory.Infrastructure.Services;
 using StereoKit;
 
 public class ButtonPressedMessage
@@ -11,20 +10,15 @@ public class ButtonPressedMessage
 public class ButtonWidget : BaseWidget
 {
     private readonly MessageBus _messageBus;
+    private int i;
 
-    int i = 0;
+    public ButtonWidget(MessageBus messageBus) => _messageBus = messageBus;
 
-    public ButtonWidget(MessageBus messageBus)
+    public override void OnFrameUpdate()
     {
-        _messageBus = messageBus;
+        if (UI.Button("Press me"))
+        {
+            _messageBus.Publish(new ButtonPressedMessage { NewText = $"Button was pressed {i++} times!" });
+        }
     }
-
-public override void OnFrameUpdate()
-{
-    if (UI.Button("Press me"))
-    {
-        _messageBus.Publish(new ButtonPressedMessage { NewText = $"Button was pressed {i} times!" });
-        i++;
-    }
-}
 }

@@ -5,8 +5,7 @@ using StereoKit;
 using System;
 using SKLaboratory.Core.Services;
 using SKLaboratory.Core.Steppers;
-using SKLaboratory.Infrastructure.Steppers;
-using SKLaboratory;
+using StereoKit.Framework;
 
 class Program
 {
@@ -37,7 +36,7 @@ class Program
         AddPostInitSteppers();
     }
 
-    private static void AddPreInitSteppers() => SK.AddStepper<PassthroughStepper>();
+    private static void AddPreInitSteppers() => SK.AddStepper<PassthroughFBExt>();
 
     private static void InitializeStereoKit()
     {
@@ -51,12 +50,11 @@ class Program
 
     private static void RegisterWidgetsToFactory()
     {
+        var messageBus = _serviceProvider.GetService<MessageBus>();
         var widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
-        widgetFactory.RegisterWidget<CubeWidget>();
-        widgetFactory.RegisterWidget<FloorWidget>();
-        widgetFactory.RegisterWidget<PassthroughWidget>();
-        widgetFactory.RegisterWidget<ButtonWidget>();
-        widgetFactory.RegisterWidget<TextWidget>();
+
+        widgetFactory.RegisterWidget<ButtonWidget>(new ButtonWidgetCreator(messageBus));
+        widgetFactory.RegisterWidget<TextWidget>(new TextWidgetCreator(messageBus));
     }
 
     private static void AddPostInitSteppers()

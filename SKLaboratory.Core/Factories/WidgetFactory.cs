@@ -6,7 +6,7 @@ namespace SKLaboratory.Infrastructure.Services;
 
 public class WidgetFactory : IWidgetFactory
 {
-    private readonly Dictionary<Type, Func<IWidget>> _widgetCreators = new();
+    private readonly Dictionary<Type, IWidgetCreator> _widgetCreators = new();
     private readonly MessageBus _messageBus;
 
     public WidgetFactory(MessageBus messageBus) => _messageBus = messageBus;
@@ -15,16 +15,19 @@ public class WidgetFactory : IWidgetFactory
 
     public IWidget CreateWidget(Type widgetType)
     {
-        return _widgetCreators.TryGetValue(widgetType, out var createWidget)
-            ? AttemptToCreateWidget(createWidget, widgetType)
-            : throw new UnknownWidgetTypeException($"Widget type not registered: {widgetType}");
+        if (!_widgetCreators.TryGetValue(widgetType, out var creator))
+        {
+            throw new UnknownWidgetTypeException($"Widget type not registered: {widgetType}");
+        }
+
+        return creator.CreateWidget();
     }
 
-    public void RegisterWidget<T>() where T : IWidget
+    public void RegisterWidget<T>(IWidgetCreator creator) where T : IWidget
     {
         Type widgetType = typeof(T);
         ValidateWidgetType(widgetType);
-        _widgetCreators[widgetType] = () => InstantiateWidget<T>();
+        _widgetCreators[widgetType] = creator;
     }
 
     private void ValidateWidgetType(Type widgetType)
