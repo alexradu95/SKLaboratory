@@ -18,7 +18,7 @@ internal class PassthroughWidget : BaseWidget
 
 public override void OnFrameUpdate()
     {
-        if (IsActive)
+        if (IsVisible)
         {
             UI.WindowBegin("Passthrough Settings", ref _pose);
             bool toggle = passthrough.Enabled;

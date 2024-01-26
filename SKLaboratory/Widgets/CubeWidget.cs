@@ -16,7 +16,7 @@ public class CubeWidget : BaseWidget
 
     public override void OnFrameUpdate()
     {
-        if (IsActive)
+        if (IsVisible)
         {
             UI.Handle("Cube", ref _pose, _cube.Bounds);
             _cube.Draw(_pose.ToMatrix());

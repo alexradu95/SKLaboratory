@@ -1,12 +1,13 @@
 ﻿using SKLaboratory.Infrastructure.Interfaces;
-namespace SKLaboratory.Infrastructure;
 
+namespace SKLaboratory.Infrastructure;
 public abstract class BaseWidget : IWidget
 {
-    protected BaseWidget() => (Id, IsActive) = (Guid.NewGuid(), true);
-
+    public BaseWidget()
+    {
+        Id = Guid.NewGuid(); // ID is set when the widget is constructed
+    }
     public Guid Id { get; }
-    public bool IsActive { get; set; }
-
+    public bool IsVisible { get; set; }
     public abstract void OnFrameUpdate();
 }

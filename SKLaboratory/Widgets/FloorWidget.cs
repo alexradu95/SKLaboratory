@@ -20,7 +20,7 @@ public class FloorWidget : BaseWidget
 
 public override void OnFrameUpdate()
 {
-    if (IsActive && SK.System.displayType == Display.Opaque)
+    if (IsVisible && SK.System.displayType == Display.Opaque)
         Mesh.Cube.Draw(floorMaterial, _transform);
 }
 }

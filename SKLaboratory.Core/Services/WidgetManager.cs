@@ -9,7 +9,7 @@ public class WidgetManager(IWidgetFactory widgetFactory) : IWidgetManager
 
     public IReadOnlyDictionary<Type, IWidget> ActiveWidgetsList => _activeWidgets;
 
-    public void ToggleWidgetActivation(Type widgetType)
+    public void ToggleWidgetVisibility(Type widgetType)
     {
         if (_activeWidgets.ContainsKey(widgetType))
             DeactivateWidget(widgetType);
