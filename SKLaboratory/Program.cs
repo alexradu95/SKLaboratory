@@ -10,75 +10,77 @@ using StereoKit;
 
 namespace SKLaboratory;
 
-class Program
+internal class Program
 {
-    private static IServiceProvider _serviceProvider;
+	private static IServiceProvider _serviceProvider;
 
-    static void Main(string[] args)
-    {
-        _serviceProvider = BuildServiceProvider();
-        InitializeApplication();
-        RunMainLoop();
-    }
+	private static void Main()
+	{
+		_serviceProvider = BuildServiceProvider();
+		InitializeApplication();
+		RunMainLoop();
+	}
 
-    private static IServiceProvider BuildServiceProvider()
-    {
-        var serviceCollection = new ServiceCollection();
-        serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
-        serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
-        serviceCollection.AddSingleton<StartHandMenu>();
-        serviceCollection.AddSingleton<MessageBus>();
-        return serviceCollection.BuildServiceProvider();
-    }
+	private static IServiceProvider BuildServiceProvider()
+	{
+		var serviceCollection = new ServiceCollection();
+		serviceCollection.AddSingleton<IWidgetFactory, WidgetFactory>();
+		serviceCollection.AddSingleton<IWidgetManager, WidgetManager>();
+		serviceCollection.AddSingleton<StartHandMenu>();
+		serviceCollection.AddSingleton<MessageBus>();
+		return serviceCollection.BuildServiceProvider();
+	}
 
-    private static void InitializeApplication()
-    {
-        AddPreInitSteppers();
-        InitializeStereoKit();
-        RegisterWidgetsToFactory();
-        AddPostInitSteppers();
-    }
+	private static void InitializeApplication()
+	{
+		AddPreInitSteppers();
+		InitializeStereoKit();
+		RegisterWidgetsToFactory();
+		AddPostInitSteppers();
+	}
 
-    private static void AddPreInitSteppers() => SK.AddStepper<PassthroughFBExt>();
+	private static void AddPreInitSteppers()
+	{
+		SK.AddStepper<PassthroughFbExt>();
+	}
 
-    private static void InitializeStereoKit()
-    {
-        var settings = new SKSettings
-        {
-            appName = "SKLaboratory",
-            assetsFolder = "Assets"
-        };
-        SK.Initialize(settings);
-    }
+	private static void InitializeStereoKit()
+	{
+		var settings = new SKSettings
+		{
+			appName = "SKLaboratory",
+			assetsFolder = "Assets"
+		};
+		SK.Initialize(settings);
+	}
 
-    private static void RegisterWidgetsToFactory()
-    {
-        var messageBus = _serviceProvider.GetService<MessageBus>();
-        var widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
+	private static void RegisterWidgetsToFactory()
+	{
+		var messageBus = _serviceProvider.GetService<MessageBus>();
+		var widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
 
-        widgetFactory.RegisterWidget<ButtonWidget>(new ButtonWidgetCreator(messageBus));
-        widgetFactory.RegisterWidget<TextWidget>(new TextWidgetCreator(messageBus));
-    }
+		widgetFactory.RegisterWidget<ButtonWidget>(new ButtonWidgetCreator(messageBus));
+		widgetFactory.RegisterWidget<TextWidget>(new TextWidgetCreator(messageBus));
+	}
 
-    private static void AddPostInitSteppers()
-    {
+	private static void AddPostInitSteppers()
+	{
+		var widgetManager = _serviceProvider.GetService<IWidgetManager>();
+		var widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
 
-        var widgetManager = _serviceProvider.GetService<IWidgetManager>();
-        var widgetFactory = _serviceProvider.GetService<IWidgetFactory>();
+		// Assuming WidgetManagerUI can be directly instantiated
+		var widgetManagerUi = new WidgetManagerUi(widgetManager, widgetFactory);
+		SK.AddStepper(widgetManagerUi);
+		StartHandMenu.InitializeHandMenuStepper();
+	}
 
-        // Assuming WidgetManagerUI can be directly instantiated
-        var widgetManagerUI = new WidgetManagerUI(widgetManager, widgetFactory);
-        SK.AddStepper(widgetManagerUI);
-        StartHandMenu.InitializeHandMenuStepper();
-    }
-
-    private static void RunMainLoop()
-    {
-        var widgetManager = _serviceProvider.GetRequiredService<IWidgetManager>();
-        SK.Run(() =>
-        {
-            foreach (var widget in widgetManager.ActiveWidgetsList.Values)
-                widget.OnFrameUpdate();
-        });
-    }
+	private static void RunMainLoop()
+	{
+		var widgetManager = _serviceProvider.GetRequiredService<IWidgetManager>();
+		SK.Run(() =>
+		{
+			foreach (var widget in widgetManager.ActiveWidgetsList.Values)
+				widget.OnFrameUpdate();
+		});
+	}
 }

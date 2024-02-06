@@ -6,18 +6,16 @@ namespace SKLaboratory.Widgets;
 
 public class ButtonPressedMessage
 {
-    public string NewText { get; set; }
+	public string NewText { get; init; }
 }
 
 public class ButtonWidget(MessageBus messageBus) : BaseWidget
 {
-    private int i;
+	private int _i;
 
-    public override void OnFrameUpdate()
-    {
-        if (UI.Button("Press me"))
-        {
-            messageBus.Publish(new ButtonPressedMessage { NewText = $"Button was pressed {i++} times!" });
-        }
-    }
+	public override void OnFrameUpdate()
+	{
+		if (UI.Button("Press me"))
+			messageBus.Publish(new ButtonPressedMessage { NewText = $"Button was pressed {_i++} times!" });
+	}
 }

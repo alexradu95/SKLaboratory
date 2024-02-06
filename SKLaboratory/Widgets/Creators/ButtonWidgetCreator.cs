@@ -5,8 +5,8 @@ namespace SKLaboratory.Widgets.Creators;
 
 public class ButtonWidgetCreator(MessageBus messageBus) : IWidgetCreator
 {
-    public IWidget CreateWidget()
-    {
-        return new ButtonWidget(messageBus);
-    }
+	public IWidget CreateWidget()
+	{
+		return new ButtonWidget(messageBus);
+	}
 }
