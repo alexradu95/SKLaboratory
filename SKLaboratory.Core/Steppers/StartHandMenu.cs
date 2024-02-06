@@ -1,8 +1,4 @@
-﻿using SKLaboratory.Core.Services;
-using StereoKit;
-using StereoKit.Framework;
-
-namespace SKLaboratory.Core.Steppers;
+﻿namespace SKLaboratory.Core.Steppers;
 
 public class StartHandMenu
 {

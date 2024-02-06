@@ -1,8 +1,4 @@
-﻿using SKLaboratory.Core.BaseClasses;
-using SKLaboratory.Core.Services;
-using StereoKit;
-
-namespace SKLaboratory.Widgets;
+﻿namespace SKLaboratory.Widgets.ButtonEventDemo;
 
 public class ButtonPressedMessage
 {

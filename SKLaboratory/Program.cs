@@ -1,13 +1,3 @@
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using SKLaboratory.Core.Factories;
-using SKLaboratory.Core.Interfaces;
-using SKLaboratory.Core.Services;
-using SKLaboratory.Core.Steppers;
-using SKLaboratory.Widgets;
-using SKLaboratory.Widgets.Creators;
-using StereoKit;
-
 namespace SKLaboratory;
 
 internal class Program
@@ -19,6 +9,16 @@ internal class Program
 		_serviceProvider = BuildServiceProvider();
 		InitializeApplication();
 		RunMainLoop();
+	}
+	
+	private static void RunMainLoop()
+	{
+		var widgetManager = _serviceProvider.GetRequiredService<IWidgetManager>();
+		SK.Run(() =>
+		{
+			foreach (var widget in widgetManager.ActiveWidgetsList.Values)
+				widget.OnFrameUpdate();
+		});
 	}
 
 	private static IServiceProvider BuildServiceProvider()
@@ -74,13 +74,5 @@ internal class Program
 		StartHandMenu.InitializeHandMenuStepper();
 	}
 
-	private static void RunMainLoop()
-	{
-		var widgetManager = _serviceProvider.GetRequiredService<IWidgetManager>();
-		SK.Run(() =>
-		{
-			foreach (var widget in widgetManager.ActiveWidgetsList.Values)
-				widget.OnFrameUpdate();
-		});
-	}
+
 }

@@ -1,7 +1,4 @@
-using SKLaboratory.Core.Interfaces;
-using SKLaboratory.Core.Services;
-
-namespace SKLaboratory.Widgets.Creators;
+namespace SKLaboratory.Widgets.ButtonEventDemo;
 
 public class ButtonWidgetCreator(MessageBus messageBus) : IWidgetCreator
 {

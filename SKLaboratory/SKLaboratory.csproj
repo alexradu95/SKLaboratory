@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <OutputType>Exe</OutputType>
-
+	<ImplicitUsings>enable</ImplicitUsings> 
         <ApplicationIcon>Platforms\Net\App.ico</ApplicationIcon>
     </PropertyGroup>
 
