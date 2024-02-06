@@ -1,5 +1,4 @@
 using SKLaboratory.GenerativeWorld;
-using VRWorld;
 
 namespace SKLaboratory;
 
