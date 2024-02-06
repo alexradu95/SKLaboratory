@@ -1,3 +1,6 @@
+using SKLaboratory.GenerativeWorld;
+using VRWorld;
+
 namespace SKLaboratory;
 
 public class WidgetRegistrar(IServiceProvider serviceProvider)
@@ -9,5 +12,6 @@ public class WidgetRegistrar(IServiceProvider serviceProvider)
 
 		widgetFactory.RegisterWidget<ButtonWidget>(new ButtonWidgetCreator(messageBus));
 		widgetFactory.RegisterWidget<TextWidget>(new TextWidgetCreator(messageBus));
+		widgetFactory.RegisterWidget<GenerativeWorldWidget>(new GenerativeWorldCreator());
 	}
 }
