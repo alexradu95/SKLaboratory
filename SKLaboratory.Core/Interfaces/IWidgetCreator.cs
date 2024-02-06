@@ -1,4 +1,4 @@
-using SKLaboratory.Infrastructure.Interfaces;
+namespace SKLaboratory.Core.Interfaces;
 
 public interface IWidgetCreator
 {

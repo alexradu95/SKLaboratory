@@ -1,4 +1,4 @@
-﻿namespace SKLaboratory.Infrastructure.Exceptions;
+﻿namespace SKLaboratory.Core.Exceptions;
 
 [Serializable]
 public class WidgetNotFoundException : Exception

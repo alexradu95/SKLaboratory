@@ -1,17 +1,12 @@
+using SKLaboratory.Core.Interfaces;
 using SKLaboratory.Core.Services;
-using SKLaboratory.Infrastructure.Interfaces;
 
-public class ButtonWidgetCreator : IWidgetCreator
+namespace SKLaboratory.Widgets.Creators;
+
+public class ButtonWidgetCreator(MessageBus messageBus) : IWidgetCreator
 {
-    private readonly MessageBus _messageBus;
-
-    public ButtonWidgetCreator(MessageBus messageBus)
-    {
-        _messageBus = messageBus;
-    }
-
     public IWidget CreateWidget()
     {
-        return new ButtonWidget(_messageBus);
+        return new ButtonWidget(messageBus);
     }
 }

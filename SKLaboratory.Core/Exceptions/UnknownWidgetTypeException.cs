@@ -1,9 +1,6 @@
-﻿namespace SKLaboratory.Infrastructure.Exceptions;
+﻿namespace SKLaboratory.Core.Exceptions;
 
 [Serializable]
-public class UnknownWidgetTypeException : Exception
+public class UnknownWidgetTypeException(string message) : Exception(message)
 {
-    public UnknownWidgetTypeException(string message) : base(message)
-    {
-    }
 }

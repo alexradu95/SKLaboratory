@@ -1,15 +1,12 @@
-﻿using SKLaboratory.Core.Services;
-using SKLaboratory.Infrastructure.Exceptions;
-using SKLaboratory.Infrastructure.Interfaces;
+﻿using SKLaboratory.Core.Exceptions;
+using SKLaboratory.Core.Interfaces;
+using SKLaboratory.Core.Services;
 
-namespace SKLaboratory.Infrastructure.Services;
+namespace SKLaboratory.Core.Factories;
 
-public class WidgetFactory : IWidgetFactory
+public class WidgetFactory(MessageBus messageBus) : IWidgetFactory
 {
     private readonly Dictionary<Type, IWidgetCreator> _widgetCreators = new();
-    private readonly MessageBus _messageBus;
-
-    public WidgetFactory(MessageBus messageBus) => _messageBus = messageBus;
 
     public IReadOnlyList<Type> RegisteredWidgetTypes => _widgetCreators.Keys.ToList();
 
@@ -55,7 +52,7 @@ public class WidgetFactory : IWidgetFactory
     {
         var constructorWithMessageBus = typeof(T).GetConstructor(new[] { typeof(MessageBus) });
         return constructorWithMessageBus != null
-            ? (IWidget)constructorWithMessageBus.Invoke(new object[] { _messageBus })
+            ? (IWidget)constructorWithMessageBus.Invoke(new object[] { messageBus })
             : Activator.CreateInstance<T>();
     }
 }

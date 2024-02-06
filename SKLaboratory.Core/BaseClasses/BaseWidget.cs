@@ -1,6 +1,6 @@
-﻿using SKLaboratory.Infrastructure.Interfaces;
+﻿using SKLaboratory.Core.Interfaces;
 
-namespace SKLaboratory.Infrastructure;
+namespace SKLaboratory.Core.BaseClasses;
 public abstract class BaseWidget : IWidget
 {
     public BaseWidget()

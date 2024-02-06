@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SKLaboratory.Infrastructure.Interfaces
+﻿namespace SKLaboratory.Core.Interfaces
 {
     /// <summary>
     /// Represents the basic contract for a widget in the application.

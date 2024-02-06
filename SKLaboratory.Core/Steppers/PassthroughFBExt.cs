@@ -5,8 +5,11 @@
 // app's settings.
 
 using System.Runtime.InteropServices;
+using StereoKit;
+using StereoKit.Framework;
+using Color = StereoKit.Color;
 
-namespace StereoKit.Framework
+namespace SKLaboratory.Core.Steppers
 {
     public class PassthroughFBExt : IStepper
     {
@@ -176,68 +179,37 @@ namespace StereoKit.Framework
 #pragma warning restore 0169
 
         [StructLayout(LayoutKind.Sequential)]
-        struct XrPassthroughCreateInfoFB
+        struct XrPassthroughCreateInfoFB(PassthroughFBExt.XrPassthroughFlagsFB passthroughFlags)
         {
-            private XrStructureType type;
-            public IntPtr next;
-            public XrPassthroughFlagsFB flags;
-
-            public XrPassthroughCreateInfoFB(XrPassthroughFlagsFB passthroughFlags)
-            {
-                type = XrStructureType.XR_TYPE_PASSTHROUGH_CREATE_INFO_FB;
-                next = IntPtr.Zero;
-                flags = passthroughFlags;
-            }
+            private XrStructureType type = XrStructureType.XR_TYPE_PASSTHROUGH_CREATE_INFO_FB;
+            public IntPtr next = IntPtr.Zero;
+            public XrPassthroughFlagsFB flags = passthroughFlags;
         }
         [StructLayout(LayoutKind.Sequential)]
-        struct XrPassthroughLayerCreateInfoFB
+        struct XrPassthroughLayerCreateInfoFB(PassthroughFBExt.XrPassthroughFB passthrough, PassthroughFBExt.XrPassthroughFlagsFB flags, PassthroughFBExt.XrPassthroughLayerPurposeFB purpose)
         {
-            private XrStructureType type;
-            public IntPtr next;
-            public XrPassthroughFB passthrough;
-            public XrPassthroughFlagsFB flags;
-            public XrPassthroughLayerPurposeFB purpose;
-
-            public XrPassthroughLayerCreateInfoFB(XrPassthroughFB passthrough, XrPassthroughFlagsFB flags, XrPassthroughLayerPurposeFB purpose)
-            {
-                type = XrStructureType.XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB;
-                next = IntPtr.Zero;
-                this.passthrough = passthrough;
-                this.flags = flags;
-                this.purpose = purpose;
-            }
+            private XrStructureType type = XrStructureType.XR_TYPE_PASSTHROUGH_LAYER_CREATE_INFO_FB;
+            public IntPtr next = IntPtr.Zero;
+            public XrPassthroughFB passthrough = passthrough;
+            public XrPassthroughFlagsFB flags = flags;
+            public XrPassthroughLayerPurposeFB purpose = purpose;
         }
         [StructLayout(LayoutKind.Sequential)]
-        struct XrPassthroughStyleFB
+        struct XrPassthroughStyleFB(float textureOpacityFactor, Color edgeColor)
         {
-            public XrStructureType type;
-            public IntPtr next;
-            public float textureOpacityFactor;
-            public Color edgeColor;
-            public XrPassthroughStyleFB(float textureOpacityFactor, Color edgeColor)
-            {
-                type = XrStructureType.XR_TYPE_PASSTHROUGH_STYLE_FB;
-                next = IntPtr.Zero;
-                this.textureOpacityFactor = textureOpacityFactor;
-                this.edgeColor = edgeColor;
-            }
+            public XrStructureType type = XrStructureType.XR_TYPE_PASSTHROUGH_STYLE_FB;
+            public IntPtr next = IntPtr.Zero;
+            public float textureOpacityFactor = textureOpacityFactor;
+            public Color edgeColor = edgeColor;
         }
         [StructLayout(LayoutKind.Sequential)]
-        struct XrCompositionLayerPassthroughFB
+        struct XrCompositionLayerPassthroughFB(PassthroughFBExt.XrCompositionLayerFlags flags, PassthroughFBExt.XrPassthroughLayerFB layerHandle)
         {
-            public XrStructureType type;
-            public IntPtr next;
-            public XrCompositionLayerFlags flags;
-            public ulong space;
-            public XrPassthroughLayerFB layerHandle;
-            public XrCompositionLayerPassthroughFB(XrCompositionLayerFlags flags, XrPassthroughLayerFB layerHandle)
-            {
-                type = XrStructureType.XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB;
-                next = IntPtr.Zero;
-                space = 0;
-                this.flags = flags;
-                this.layerHandle = layerHandle;
-            }
+            public XrStructureType type = XrStructureType.XR_TYPE_COMPOSITION_LAYER_PASSTHROUGH_FB;
+            public IntPtr next = IntPtr.Zero;
+            public XrCompositionLayerFlags flags = flags;
+            public ulong space = 0;
+            public XrPassthroughLayerFB layerHandle = layerHandle;
         }
 
         delegate XrResult del_xrCreatePassthroughFB(ulong session, [In] XrPassthroughCreateInfoFB createInfo, out XrPassthroughFB outPassthrough);

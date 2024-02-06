@@ -1,8 +1,8 @@
-using SKLaboratory.Infrastructure.Interfaces;
-using StereoKit.Framework;
+using SKLaboratory.Core.Interfaces;
 using StereoKit;
+using StereoKit.Framework;
 
-namespace SKLaboratory.Infrastructure.Services
+namespace SKLaboratory.Core.Services
 {
     public class WidgetManagerUI : IStepper
     {

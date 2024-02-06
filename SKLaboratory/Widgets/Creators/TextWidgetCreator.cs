@@ -1,17 +1,12 @@
+using SKLaboratory.Core.Interfaces;
 using SKLaboratory.Core.Services;
-using SKLaboratory.Infrastructure.Interfaces;
 
-public class TextWidgetCreator : IWidgetCreator
+namespace SKLaboratory.Widgets.Creators;
+
+public class TextWidgetCreator(MessageBus messageBus) : IWidgetCreator
 {
-    private readonly MessageBus _messageBus;
-
-    public TextWidgetCreator(MessageBus messageBus)
-    {
-        _messageBus = messageBus;
-    }
-
     public IWidget CreateWidget()
     {
-        return new TextWidget(_messageBus);
+        return new TextWidget(messageBus);
     }
 }

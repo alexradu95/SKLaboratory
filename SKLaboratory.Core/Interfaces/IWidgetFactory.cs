@@ -1,4 +1,4 @@
-﻿namespace SKLaboratory.Infrastructure.Interfaces;
+﻿namespace SKLaboratory.Core.Interfaces;
 
 /// <summary>
 /// Defines a factory for creating and managing widgets.

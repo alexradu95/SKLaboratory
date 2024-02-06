@@ -1,7 +1,8 @@
-﻿using SKLaboratory.Infrastructure.Exceptions;
-using SKLaboratory.Infrastructure.Interfaces;
+﻿using SKLaboratory.Core.Exceptions;
+using SKLaboratory.Core.Interfaces;
 using StereoKit;
-namespace SKLaboratory.Infrastructure.Services;
+
+namespace SKLaboratory.Core.Services;
 
 public class WidgetManager(IWidgetFactory widgetFactory) : IWidgetManager
 {

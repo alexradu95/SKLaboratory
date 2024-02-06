@@ -1,11 +1,14 @@
-using Microsoft.Extensions.DependencyInjection;
-using SKLaboratory.Infrastructure.Services;
-using SKLaboratory.Infrastructure.Interfaces;
-using StereoKit;
 using System;
+using Microsoft.Extensions.DependencyInjection;
+using SKLaboratory.Core.Factories;
+using SKLaboratory.Core.Interfaces;
 using SKLaboratory.Core.Services;
 using SKLaboratory.Core.Steppers;
-using StereoKit.Framework;
+using SKLaboratory.Widgets;
+using SKLaboratory.Widgets.Creators;
+using StereoKit;
+
+namespace SKLaboratory;
 
 class Program
 {

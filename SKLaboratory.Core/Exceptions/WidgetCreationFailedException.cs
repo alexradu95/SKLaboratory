@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace SKLaboratory.Infrastructure.Exceptions;
+﻿namespace SKLaboratory.Core.Exceptions;
 
 [Serializable]
 public class WidgetCreationFailedException : Exception

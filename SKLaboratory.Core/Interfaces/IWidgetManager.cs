@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SKLaboratory.Infrastructure.Interfaces
+﻿namespace SKLaboratory.Core.Interfaces
 {
     /// <summary>
     /// Defines the contract for managing widgets in the application.
