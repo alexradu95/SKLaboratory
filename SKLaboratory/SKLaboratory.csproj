@@ -13,4 +13,8 @@
     <ItemGroup>
         <ProjectReference Include="..\SKLaboratory.Core\SKLaboratory.Core.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Widgets\ButtonEventListener\" />
+    </ItemGroup>
 </Project>
