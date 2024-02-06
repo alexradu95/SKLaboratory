@@ -1,10 +1,10 @@
 namespace SKLaboratory;
 
-internal class Program
+public class SKLaboratory
 {
 	private static IServiceProvider _serviceProvider;
 
-	private static void Main()
+	public static void RunSKLaboratory()
 	{
 		_serviceProvider = BuildServiceProvider();
 		InitializeApplication();
