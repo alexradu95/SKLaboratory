@@ -1,52 +1,26 @@
 ﻿namespace SKLaboratory.Core.Factories;
 
-public class WidgetFactory(MessageBus messageBus) : IWidgetFactory
+public class WidgetFactory : IWidgetFactory
 {
-	private readonly Dictionary<Type, IWidgetCreator> _widgetCreators = new();
-
-	public IReadOnlyList<Type> RegisteredWidgetTypes => _widgetCreators.Keys.ToList();
-
+	private readonly Dictionary<Type, IWidgetCreator> _widgetCreatorMap = new();
+	public IReadOnlyList<Type> RegisteredWidgetTypes => _widgetCreatorMap.Keys.ToList();
 	public IWidget CreateWidget(Type widgetType)
 	{
-		if (!_widgetCreators.TryGetValue(widgetType, out var creator))
+		if (!_widgetCreatorMap.TryGetValue(widgetType, out var creator))
 			throw new UnknownWidgetTypeException($"Widget type not registered: {widgetType}");
-
 		return creator.CreateWidget();
 	}
-
 	public void RegisterWidget<T>(IWidgetCreator creator) where T : IWidget
 	{
 		var widgetType = typeof(T);
 		ValidateWidgetType(widgetType);
-		_widgetCreators[widgetType] = creator;
+		_widgetCreatorMap[widgetType] = creator;
 	}
-
 	private void ValidateWidgetType(Type widgetType)
 	{
 		if (!typeof(IWidget).IsAssignableFrom(widgetType))
-			throw new ArgumentException("Type must implement IWidget", nameof(widgetType));
-
-		if (_widgetCreators.ContainsKey(widgetType))
-			throw new ArgumentException("Widget type already registered", nameof(widgetType));
-	}
-
-	private IWidget AttemptToCreateWidget(Func<IWidget> createWidget, Type widgetType)
-	{
-		try
-		{
-			return createWidget();
-		}
-		catch (Exception ex)
-		{
-			throw new WidgetCreationFailedException($"Error creating widget: {widgetType}", ex);
-		}
-	}
-
-	private IWidget InstantiateWidget<T>() where T : IWidget
-	{
-		var constructorWithMessageBus = typeof(T).GetConstructor([typeof(MessageBus)]);
-		return constructorWithMessageBus != null
-			? (IWidget)constructorWithMessageBus.Invoke([messageBus])
-			: Activator.CreateInstance<T>();
+			throw new ArgumentException("Provided type does not implement IWidget", nameof(widgetType));
+		if (_widgetCreatorMap.ContainsKey(widgetType))
+			throw new ArgumentException("This widget type is already registered", nameof(widgetType));
 	}
 }

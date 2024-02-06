@@ -2,7 +2,6 @@
 
 public abstract class BaseWidget : IWidget
 {
-	public Guid Id { get; } = Guid.NewGuid(); // ID is set when the widget is constructed
-	public bool IsVisible { get; set; }
+	public Guid Id { get; } = Guid.NewGuid();
 	public abstract void OnFrameUpdate();
 }
