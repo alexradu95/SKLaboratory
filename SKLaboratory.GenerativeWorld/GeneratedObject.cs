@@ -6,10 +6,10 @@ namespace SKLaboratory.GenerativeWorld
     public class GeneratedObject
     {
         public int Id { get; }
-        Model _model;
-        Color _color;
-        Pose _pose = Pose.Identity;
-        Vec3 _scale = Vec3.One;
+        private Model _model;
+        private Color _color;
+        private Pose _pose = Pose.Identity;
+        private Vec3 _scale = Vec3.One;
         private string Shape { get; set; }
 
         public GeneratedObject(int id, JObject data)
@@ -18,7 +18,7 @@ namespace SKLaboratory.GenerativeWorld
             UpdateFromJson(data);
         }
 
-        Dictionary<string, System.Func<Model>> _shapeToModelFunc = new Dictionary<string, System.Func<Model>>
+        private readonly Dictionary<string, System.Func<Model>> _shapeToModelFunc = new Dictionary<string, System.Func<Model>>
         {
             { "cube", () => Model.FromMesh(Mesh.Cube, Material.UI) },
             { "sphere", () => Model.FromMesh(Mesh.Sphere, Material.UI) },
